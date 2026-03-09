@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Git_repo_4" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/rp_neon_green</item>
+        <item name="colorPrimaryVariant">@color/rp_neon_green</item>
+        <item name="colorOnPrimary">@color/rp_dark_text</item>
+        <item name="colorSecondary">@color/rp_neon_green</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/rp_bg_end</item>
+        <item name="android:windowBackground">@drawable/bg_green_gradient</item>
+        <item name="android:textColorPrimary">@color/rp_text_primary</item>
+        <item name="android:textColorSecondary">@color/rp_text_secondary</item>
+    </style>
+</resources>
