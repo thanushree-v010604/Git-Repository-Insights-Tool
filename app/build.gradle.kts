@@ -53,6 +53,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.fragment.ktx)
+    implementation(libs.mpandroidchart)
+    implementation(libs.androidx.recyclerview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -60,4 +62,20 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+// Clean stale resource intermediates before each build (OneDrive lock/cache workaround).
+tasks.named("preBuild") {
+    doFirst {
+        delete(
+            layout.buildDirectory.dir("intermediates/packaged_res"),
+            layout.buildDirectory.dir("intermediates/incremental/debug/mergeDebugResources"),
+            layout.buildDirectory.dir("intermediates/merged_res"),
+            layout.buildDirectory.dir("intermediates/dex/debug/mergeProjectDexDebug"),
+            // Also clean merged_res_blame_folder and incremental packageDebugResources to avoid
+            // Gradle snapshotting corrupt or non-regular files on OneDrive.
+            layout.buildDirectory.dir("intermediates/merged_res_blame_folder"),
+            layout.buildDirectory.dir("intermediates/incremental/debug/packageDebugResources")
+        )
+    }
 }

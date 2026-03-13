@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@drawable/bg_green_gradient">
+    android:background="@drawable/bg_green_gradient"
+    android:fitsSystemWindows="true">
 
-    <!-- Top App Bar -->
+    <!-- ── TOP APP BAR ─────────────────────────────────────── -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topAppBar"
         android:layout_width="0dp"
@@ -17,20 +18,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nav_insights"
-            android:textColor="@color/rp_text_primary"
-            android:textSize="20sp"
-            android:textStyle="bold"
+        <ImageView
+            android:id="@+id/ivBackArrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="Back"
+            android:src="@android:drawable/ic_menu_revert"
+            app:tint="@color/rp_text_primary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contributor Insights"
+            android:textColor="@color/rp_text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivShareIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="Share"
+            android:src="@android:drawable/ic_menu_share"
+            app:tint="@color/rp_text_primary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Scrollable Content -->
+    <!-- ── SCROLLABLE CONTENT ──────────────────────────────── -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -46,290 +70,311 @@
             android:paddingStart="20dp"
             android:paddingTop="16dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="24dp">
+            android:paddingBottom="100dp">
 
-            <!-- Repository Selection -->
-            <TextView
-                android:id="@+id/tvCurrentRepo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Repository: facebook/react"
-                android:textColor="@color/rp_neon_green"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <!-- Commit Frequency Card -->
+            <!-- ── SECTION 1 : Impact Distribution Card ──── -->
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardCommits"
+                android:id="@+id/cardImpactDistribution"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/rp_surface"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp">
+
+                    <!-- Card title -->
+                    <TextView
+                        android:id="@+id/tvImpactTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Impact Distribution"
+                        android:textColor="@color/rp_text_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <!-- Donut chart -->
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/donutChart"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toStartOf="@id/llLegend"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvImpactTitle" />
+
+                    <!-- Center overlay text for donut -->
+                    <LinearLayout
+                        android:id="@+id/donutCenterText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="@id/donutChart"
+                        app:layout_constraintEnd_toEndOf="@id/donutChart"
+                        app:layout_constraintStart_toStartOf="@id/donutChart"
+                        app:layout_constraintTop_toTopOf="@id/donutChart">
+
+                        <TextView
+                            android:id="@+id/tvTotalValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1,482"
+                            android:textColor="@color/rp_neon_green"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- Legend (right side) -->
+                    <LinearLayout
+                        android:id="@+id/llLegend"
+                        android:layout_width="0dp"
+                        android:layout_height="160dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/donutChart"
+                        app:layout_constraintTop_toBottomOf="@id/tvImpactTitle">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:drawablePadding="8dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/legend_core"
+                            android:textColor="@color/rp_text_primary"
+                            android:textSize="12sp"
+                            app:drawableStartCompat="@drawable/dot_core" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:drawablePadding="8dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/legend_ui"
+                            android:textColor="@color/rp_text_primary"
+                            android:textSize="12sp"
+                            app:drawableStartCompat="@drawable/dot_core" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:drawablePadding="8dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/legend_api"
+                            android:textColor="@color/rp_text_primary"
+                            android:textSize="12sp"
+                            app:drawableStartCompat="@drawable/dot_api" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:drawablePadding="8dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/legend_docs"
+                            android:textColor="@color/rp_text_primary"
+                            android:textSize="12sp"
+                            app:drawableStartCompat="@drawable/dot_docs" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvTotalLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total"
+                        android:textColor="@color/rp_text_muted"
+                        android:textSize="11sp"
+                        tools:layout_editor_absoluteX="83dp"
+                        tools:layout_editor_absoluteY="88dp" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- ── SECTION 2 : Two stat cards side-by-side ─ -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/statsRow"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:backgroundTint="@color/rp_surface"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvCurrentRepo">
+                app:layout_constraintTop_toBottomOf="@id/cardImpactDistribution">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
+                <!-- Weekly Growth -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardWeeklyGrowth"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="@color/rp_surface"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="4dp"
+                    app:layout_constraintEnd_toStartOf="@id/cardReviewSpeed"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/tvGrowthTitle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Weekly Growth"
+                            android:textColor="@color/rp_text_secondary"
+                            android:textSize="12sp"
+                            app:layout_constraintEnd_toStartOf="@id/ivTrendUp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/ivTrendUp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:contentDescription="Trend Up"
+                            android:src="@android:drawable/ic_menu_upload"
+                            app:tint="@color/rp_neon_green"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tvGrowthValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="+12.4%"
+                            android:textColor="@color/rp_neon_green"
+                            android:textSize="26sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvGrowthTitle" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <!-- Review Speed -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardReviewSpeed"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="8dp"
+                    android:backgroundTint="@color/rp_surface"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@id/cardWeeklyGrowth"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/tvSpeedTitle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Review Speed"
+                            android:textColor="@color/rp_text_secondary"
+                            android:textSize="12sp"
+                            app:layout_constraintEnd_toStartOf="@id/ivLightning"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/ivLightning"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:contentDescription="Lightning"
+                            android:src="@android:drawable/ic_menu_today"
+                            app:tint="@color/rp_neon_green"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tvSpeedValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="4.2h"
+                            android:textColor="@color/rp_neon_green"
+                            android:textSize="26sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvSpeedTitle" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- ── SECTION 3 : Top Contributors header ─────── -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/contributorsHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/statsRow">
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="16dp">
+                    android:text="Top Contributors"
+                    android:textColor="@color/rp_text_primary"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/ivCommitIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:contentDescription="Commits"
-                        android:src="@android:drawable/ic_menu_recent_history"
-                        android:tint="@color/rp_neon_green"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View All"
+                    android:textColor="@color/rp_neon_green"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/tvCommitTitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="Commit Frequency"
-                        android:textColor="@color/rp_text_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/ivCommitIcon"
-                        app:layout_constraintTop_toTopOf="@id/ivCommitIcon" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <TextView
-                        android:id="@+id/tvCommitValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="1,247"
-                        android:textColor="@color/rp_neon_green"
-                        android:textSize="32sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvCommitTitle" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="commits this month"
-                        android:textColor="@color/rp_text_secondary"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="@id/tvCommitValue"
-                        app:layout_constraintStart_toEndOf="@id/tvCommitValue" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- Contributors Card -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardContributors"
+            <!-- ── Contributor RecyclerView ────────────────── -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvContributors"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:backgroundTint="@color/rp_surface"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="4dp"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardCommits">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:id="@+id/ivContribIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:contentDescription="Contributors"
-                        android:src="@android:drawable/ic_menu_myplaces"
-                        android:tint="@color/rp_neon_green"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tvContribTitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="Active Contributors"
-                        android:textColor="@color/rp_text_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/ivContribIcon"
-                        app:layout_constraintTop_toTopOf="@id/ivContribIcon" />
-
-                    <TextView
-                        android:id="@+id/tvContribValue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="342"
-                        android:textColor="@color/rp_neon_green"
-                        android:textSize="32sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvContribTitle" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="developers"
-                        android:textColor="@color/rp_text_secondary"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="@id/tvContribValue"
-                        app:layout_constraintStart_toEndOf="@id/tvContribValue" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- Language Stats Card -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardLanguages"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:backgroundTint="@color/rp_surface"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardContributors">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/tvLangTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Language Breakdown"
-                        android:textColor="@color/rp_text_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tvLang1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="JavaScript 67%"
-                        android:textColor="@color/rp_text_secondary"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvLangTitle" />
-
-                    <TextView
-                        android:id="@+id/tvLang2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="TypeScript 21%"
-                        android:textColor="@color/rp_text_secondary"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvLang1" />
-
-                    <TextView
-                        android:id="@+id/tvLang3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="CSS 8%"
-                        android:textColor="@color/rp_text_secondary"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvLang2" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Other 4%"
-                        android:textColor="@color/rp_text_secondary"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvLang3" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- Health Status Card -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardHealth"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:backgroundTint="@color/rp_surface"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardLanguages">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/tvHealthTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Repository Health"
-                        android:textColor="@color/rp_text_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tvHealthStatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:background="@drawable/bg_badge_healthy"
-                        android:paddingStart="12dp"
-                        android:paddingTop="6dp"
-                        android:paddingEnd="12dp"
-                        android:paddingBottom="6dp"
-                        android:text="Healthy"
-                        android:textColor="@color/rp_status_healthy"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvHealthTitle" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="Regular commits, active maintenance, good documentation"
-                        android:textColor="@color/rp_text_secondary"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvHealthStatus" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
+                app:layout_constraintTop_toBottomOf="@id/contributorsHeader" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

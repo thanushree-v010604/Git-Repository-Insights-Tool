@@ -3,12 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@drawable/bg_green_gradient">
+    android:background="@drawable/bg_green_gradient"
+    android:fitsSystemWindows="true">
 
-    <!-- Top App Bar -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/topAppBar"
+        android:id="@+id/topBar"
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:paddingStart="20dp"
@@ -17,20 +16,54 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/content_desc_back"
+            android:src="@android:drawable/ic_menu_revert"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/rp_neon_green" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/nav_activity"
+            android:text="@string/activity_title_commit"
             android:textColor="@color/rp_text_primary"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/ivBack"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="12dp" />
+
+        <ImageView
+            android:id="@+id/ivShare"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:contentDescription="@string/content_desc_share"
+            android:src="@android:drawable/ic_menu_share"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivOverflow"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/rp_neon_green"
+            android:layout_marginEnd="16dp" />
+
+        <ImageView
+            android:id="@+id/ivOverflow"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:contentDescription="@string/content_desc_menu"
+            android:src="@android:drawable/ic_menu_more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/rp_neon_green" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Scrollable Timeline -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -38,304 +71,345 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topAppBar">
+        app:layout_constraintTop_toBottomOf="@id/topBar">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingStart="20dp"
-            android:paddingTop="16dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="24dp">
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/rp_surface"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="6dp"
+                app:strokeColor="@color/rp_border"
+                app:strokeWidth="1dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/tvTotalTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_total_commits_title"
+                        android:textColor="@color/rp_text_secondary"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="@string/weekly_growth"
+                        android:src="@android:drawable/ic_menu_recent_history"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/rp_neon_green" />
+
+                    <TextView
+                        android:id="@+id/tvTotalNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/activity_total_commits_value"
+                        android:textColor="@color/rp_text_primary"
+                        android:textSize="34sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvTotalTitle" />
+
+                    <TextView
+                        android:id="@+id/tvTotalBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/bg_badge_healthy"
+                        android:paddingStart="10dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="4dp"
+                        android:text="@string/activity_total_commits_delta"
+                        android:textColor="@color/rp_status_healthy"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@id/tvTotalNumber"
+                        app:layout_constraintStart_toEndOf="@id/tvTotalNumber" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/activity_total_commits_subtitle"
+                        android:textColor="@color/rp_text_muted"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvTotalNumber" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="6dp"
+                    app:cardBackgroundColor="@color/rp_surface"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="6dp"
+                    app:strokeColor="@color/rp_border"
+                    app:strokeWidth="1dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:id="@+id/tvPeakTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/activity_peak_title"
+                            android:textColor="@color/rp_text_secondary"
+                            android:textSize="13sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tvPeakValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/activity_peak_value"
+                            android:textColor="@color/rp_text_primary"
+                            android:textSize="30sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvPeakTitle" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/bg_badge_updated"
+                            android:paddingStart="8dp"
+                            android:paddingTop="3dp"
+                            android:paddingEnd="8dp"
+                            android:paddingBottom="3dp"
+                            android:text="@string/activity_peak_badge"
+                            android:textColor="@color/rp_status_updated"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toBottomOf="@id/tvPeakValue"
+                            app:layout_constraintStart_toEndOf="@id/tvPeakValue" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/activity_peak_subtitle"
+                            android:textColor="@color/rp_text_muted"
+                            android:textSize="12sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvPeakValue" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:contentDescription="@string/lightning"
+                            android:src="@android:drawable/ic_menu_today"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/rp_neon_green" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    app:cardBackgroundColor="@color/rp_surface"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="6dp"
+                    app:strokeColor="@color/rp_border"
+                    app:strokeWidth="1dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:id="@+id/tvAvgTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/activity_avg_title"
+                            android:textColor="@color/rp_text_secondary"
+                            android:textSize="13sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tvAvgValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/activity_avg_value"
+                            android:textColor="@color/rp_text_primary"
+                            android:textSize="30sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvAvgTitle" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/bg_badge_healthy"
+                            android:paddingStart="8dp"
+                            android:paddingTop="3dp"
+                            android:paddingEnd="8dp"
+                            android:paddingBottom="3dp"
+                            android:text="@string/activity_avg_badge"
+                            android:textColor="@color/rp_status_healthy"
+                            android:textSize="11sp"
+                            app:layout_constraintBottom_toBottomOf="@id/tvAvgValue"
+                            app:layout_constraintStart_toEndOf="@id/tvAvgValue" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/activity_avg_subtitle"
+                            android:textColor="@color/rp_text_muted"
+                            android:textSize="12sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvAvgValue" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:contentDescription="@string/review_speed"
+                            android:src="@android:drawable/ic_menu_sort_by_size"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/rp_neon_green" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:cardBackgroundColor="@color/rp_surface"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="6dp"
+                app:strokeColor="@color/rp_border"
+                app:strokeWidth="1dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/tvChartTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/activity_chart_title"
+                        android:textColor="@color/rp_text_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvDateRange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/activity_chart_range"
+                        android:textColor="@color/rp_text_muted"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvChartTitle" />
+
+                    <LinearLayout
+                        android:id="@+id/rangeToggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:layout_width="42dp"
+                            android:layout_height="28dp"
+                            android:gravity="center"
+                            android:text="@string/activity_chart_toggle_30d"
+                            android:textColor="@color/rp_dark_text"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:background="@drawable/bg_primary_button" />
+
+                        <TextView
+                            android:layout_width="42dp"
+                            android:layout_height="28dp"
+                            android:layout_marginStart="6dp"
+                            android:gravity="center"
+                            android:text="@string/activity_chart_toggle_90d"
+                            android:textColor="@color/rp_text_secondary"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:background="@drawable/bg_input_field" />
+
+                    </LinearLayout>
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/lineChartCommits"
+                        android:layout_width="0dp"
+                        android:layout_height="220dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvDateRange" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
-                android:id="@+id/tvTimeline"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Recent Activity"
-                android:textColor="@color/rp_neon_green"
+                android:layout_marginTop="18dp"
+                android:text="@string/activity_weekly_trends_title"
+                android:textColor="@color/rp_text_primary"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textStyle="bold" />
 
-            <!-- Activity Item 1 -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/activityCard1"
-                android:layout_width="0dp"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerWeeklyTrends"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:backgroundTint="@color/rp_surface"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTimeline">
+                android:layout_marginTop="10dp"
+                android:nestedScrollingEnabled="false" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="14dp">
-
-                    <ImageView
-                        android:id="@+id/ivActivity1Icon"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="Commit"
-                        android:src="@android:drawable/ic_menu_recent_history"
-                        android:tint="@color/rp_neon_green"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tvActivity1Title"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="Commit pushed to main"
-                        android:textColor="@color/rp_text_primary"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/ivActivity1Icon"
-                        app:layout_constraintTop_toTopOf="@id/ivActivity1Icon" />
-
-                    <TextView
-                        android:id="@+id/tvActivity1Desc"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="4dp"
-                        android:text="Fix authentication bug in login flow"
-                        android:textColor="@color/rp_text_secondary"
-                        android:textSize="13sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/ivActivity1Icon"
-                        app:layout_constraintTop_toBottomOf="@id/tvActivity1Title" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="6dp"
-                        android:text="2 hours ago"
-                        android:textColor="@color/rp_text_muted"
-                        android:textSize="11sp"
-                        app:layout_constraintStart_toEndOf="@id/ivActivity1Icon"
-                        app:layout_constraintTop_toBottomOf="@id/tvActivity1Desc" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- Activity Item 2 -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/activityCard2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:backgroundTint="@color/rp_surface"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activityCard1">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="14dp">
-
-                    <ImageView
-                        android:id="@+id/ivActivity2Icon"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="Pull Request"
-                        android:src="@android:drawable/ic_menu_share"
-                        android:tint="@color/rp_status_updated"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tvActivity2Title"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="Pull request merged"
-                        android:textColor="@color/rp_text_primary"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/ivActivity2Icon"
-                        app:layout_constraintTop_toTopOf="@id/ivActivity2Icon" />
-
-                    <TextView
-                        android:id="@+id/tvActivity2Desc"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="4dp"
-                        android:text="Added dark mode support"
-                        android:textColor="@color/rp_text_secondary"
-                        android:textSize="13sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/ivActivity2Icon"
-                        app:layout_constraintTop_toBottomOf="@id/tvActivity2Title" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="6dp"
-                        android:text="5 hours ago"
-                        android:textColor="@color/rp_text_muted"
-                        android:textSize="11sp"
-                        app:layout_constraintStart_toEndOf="@id/ivActivity2Icon"
-                        app:layout_constraintTop_toBottomOf="@id/tvActivity2Desc" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- Activity Item 3 -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/activityCard3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:backgroundTint="@color/rp_surface"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activityCard2">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="14dp">
-
-                    <ImageView
-                        android:id="@+id/ivActivity3Icon"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="Issue"
-                        android:src="@android:drawable/ic_menu_info_details"
-                        android:tint="@color/rp_status_review"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tvActivity3Title"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="Issue opened"
-                        android:textColor="@color/rp_text_primary"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/ivActivity3Icon"
-                        app:layout_constraintTop_toTopOf="@id/ivActivity3Icon" />
-
-                    <TextView
-                        android:id="@+id/tvActivity3Desc"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="4dp"
-                        android:text="Performance optimization needed"
-                        android:textColor="@color/rp_text_secondary"
-                        android:textSize="13sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/ivActivity3Icon"
-                        app:layout_constraintTop_toBottomOf="@id/tvActivity3Title" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="6dp"
-                        android:text="Yesterday"
-                        android:textColor="@color/rp_text_muted"
-                        android:textSize="11sp"
-                        app:layout_constraintStart_toEndOf="@id/ivActivity3Icon"
-                        app:layout_constraintTop_toBottomOf="@id/tvActivity3Desc" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- Activity Item 4 -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/activityCard4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:backgroundTint="@color/rp_surface"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activityCard3">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="14dp">
-
-                    <ImageView
-                        android:id="@+id/ivActivity4Icon"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="Release"
-                        android:src="@android:drawable/ic_menu_compass"
-                        android:tint="@color/rp_status_healthy"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tvActivity4Title"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="Release v2.4.0 published"
-                        android:textColor="@color/rp_text_primary"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/ivActivity4Icon"
-                        app:layout_constraintTop_toTopOf="@id/ivActivity4Icon" />
-
-                    <TextView
-                        android:id="@+id/tvActivity4Desc"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="4dp"
-                        android:text="Bug fixes and improvements"
-                        android:textColor="@color/rp_text_secondary"
-                        android:textSize="13sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/ivActivity4Icon"
-                        app:layout_constraintTop_toBottomOf="@id/tvActivity4Title" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginTop="6dp"
-                        android:text="3 days ago"
-                        android:textColor="@color/rp_text_muted"
-                        android:textSize="11sp"
-                        app:layout_constraintStart_toEndOf="@id/ivActivity4Icon"
-                        app:layout_constraintTop_toBottomOf="@id/tvActivity4Desc" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 

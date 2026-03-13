@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@drawable/bg_green_gradient">
+    android:background="@drawable/bg_green_gradient"
+    android:fitsSystemWindows="true">
 
-    <!-- Top App Bar -->
+    <!-- Top Bar -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/topAppBar"
+        android:id="@+id/topBarFiles"
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:paddingStart="20dp"
@@ -17,35 +17,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nav_files"
-            android:textColor="@color/rp_text_primary"
-            android:textSize="20sp"
-            android:textStyle="bold"
+        <ImageView
+            android:id="@+id/ivFilesBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/content_desc_back"
+            android:src="@android:drawable/ic_menu_revert"
+            app:tint="@color/rp_neon_green"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/files_title"
+            android:textColor="@color/rp_text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivFilesBack"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="12dp" />
+
+        <ImageView
+            android:id="@+id/ivFilesSearch"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:contentDescription="@string/content_desc_search"
+            android:src="@android:drawable/ic_menu_search"
+            app:tint="@color/rp_neon_green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Breadcrumb -->
-    <TextView
-        android:id="@+id/tvBreadcrumb"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="20dp"
-        android:text="facebook/react / src /"
-        android:textColor="@color/rp_neon_green"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topAppBar" />
-
-    <!-- Files List -->
+    <!-- Scrollable content -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -53,299 +61,282 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvBreadcrumb">
+        app:layout_constraintTop_toBottomOf="@id/topBarFiles">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingStart="20dp"
-            android:paddingTop="16dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="24dp">
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
-            <!-- Folder Item 1 -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/fileCard1"
-                android:layout_width="0dp"
+            <!-- Total Changes Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/rp_surface"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:cardBackgroundColor="@color/rp_surface"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="6dp"
+                app:strokeColor="@color/rp_border"
+                app:strokeWidth="1dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="12dp">
+                    android:padding="20dp">
 
-                    <ImageView
-                        android:id="@+id/ivFile1Icon"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="Folder"
-                        android:src="@android:drawable/ic_menu_view"
-                        android:tint="@color/rp_neon_green"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                    <TextView
+                        android:id="@+id/tvTotalChangesTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/files_total_changes_title"
+                        android:textColor="@color/rp_text_secondary"
+                        android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="@string/files_total_changes_trend_desc"
+                        android:src="@android:drawable/ic_menu_upload"
+                        app:tint="@color/rp_neon_green"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <TextView
-                        android:id="@+id/tvFile1Name"
-                        android:layout_width="0dp"
+                        android:id="@+id/tvTotalChangesValue"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="components"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/files_total_changes_value"
                         android:textColor="@color/rp_text_primary"
-                        android:textSize="15sp"
+                        android:textSize="34sp"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/ivFile1Arrow"
-                        app:layout_constraintStart_toEndOf="@id/ivFile1Icon"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/ivFile1Arrow"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:contentDescription="Open"
-                        android:src="@android:drawable/ic_media_next"
-                        android:tint="@color/rp_text_secondary"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- Folder Item 2 -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/fileCard2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="@color/rp_surface"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fileCard1">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:id="@+id/ivFile2Icon"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="Folder"
-                        android:src="@android:drawable/ic_menu_view"
-                        android:tint="@color/rp_neon_green"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/tvTotalChangesTitle" />
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:id="@+id/tvTotalChangesDelta"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="hooks"
-                        android:textColor="@color/rp_text_primary"
-                        android:textSize="15sp"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/bg_badge_healthy"
+                        android:paddingStart="10dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="4dp"
+                        android:text="@string/files_total_changes_delta"
+                        android:textColor="@color/rp_status_healthy"
+                        android:textSize="12sp"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/ivFile2Arrow"
-                        app:layout_constraintStart_toEndOf="@id/ivFile2Icon"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/ivFile2Arrow"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:contentDescription="Open"
-                        android:src="@android:drawable/ic_media_next"
-                        android:tint="@color/rp_text_secondary"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintBottom_toBottomOf="@id/tvTotalChangesValue"
+                        app:layout_constraintStart_toEndOf="@id/tvTotalChangesValue" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            </androidx.cardview.widget.CardView>
+            <!-- Most Modified Files -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/files_most_modified_header"
+                android:textColor="@color/rp_text_secondary"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
-            <!-- File Item 3 -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/fileCard3"
-                android:layout_width="0dp"
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:backgroundTint="@color/rp_surface"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fileCard2">
+                app:cardBackgroundColor="@color/rp_surface"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="6dp"
+                app:strokeColor="@color/rp_border"
+                app:strokeWidth="1dp">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="12dp">
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-                    <ImageView
-                        android:id="@+id/ivFile3Icon"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="File"
-                        android:src="@android:drawable/ic_menu_agenda"
-                        android:tint="@color/rp_text_secondary"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:layout_width="0dp"
+                    <!-- index.js row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="index.js"
-                        android:textColor="@color/rp_text_primary"
-                        android:textSize="15sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/ivFile3Arrow"
-                        app:layout_constraintStart_toEndOf="@id/ivFile3Icon"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/ivFile3Arrow"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:contentDescription="Open"
-                        android:src="@android:drawable/ic_media_next"
-                        android:tint="@color/rp_text_secondary"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/files_index_js"
+                            android:textColor="@color/rp_text_primary"
+                            android:textSize="13sp" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/files_index_js_changes"
+                            android:textColor="@color/rp_text_secondary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+                    <ProgressBar
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="6dp"
+                        android:progress="100"
+                        android:max="100"
+                        android:progressDrawable="@drawable/bg_file_progress"
+                        android:background="@drawable/bg_file_progress_track" />
 
-            <!-- File Item 4 -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/fileCard4"
-                android:layout_width="0dp"
+                    <!-- auth_service.py row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/files_auth_service"
+                            android:textColor="@color/rp_text_primary"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/files_auth_service_changes"
+                            android:textColor="@color/rp_text_secondary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <ProgressBar
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="6dp"
+                        android:progress="72"
+                        android:max="100"
+                        android:progressDrawable="@drawable/bg_file_progress"
+                        android:background="@drawable/bg_file_progress_track" />
+
+                    <!-- dashboard_v2.tsx row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/files_dashboard_v2"
+                            android:textColor="@color/rp_text_primary"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/files_dashboard_v2_changes"
+                            android:textColor="@color/rp_text_secondary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <ProgressBar
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="6dp"
+                        android:progress="40"
+                        android:max="100"
+                        android:progressDrawable="@drawable/bg_file_progress"
+                        android:background="@drawable/bg_file_progress_track" />
+
+                    <!-- README.md row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/files_readme"
+                            android:textColor="@color/rp_text_primary"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/files_readme_changes"
+                            android:textColor="@color/rp_text_secondary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <ProgressBar
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"
+                        android:layout_marginTop="6dp"
+                        android:progress="22"
+                        android:max="100"
+                        android:progressDrawable="@drawable/bg_file_progress"
+                        android:background="@drawable/bg_file_progress_track" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Recent Updates header -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="@color/rp_surface"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fileCard3">
+                android:layout_marginTop="20dp">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="12dp">
+                    android:text="@string/files_recent_updates"
+                    android:textColor="@color/rp_text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/ivFile4Icon"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="File"
-                        android:src="@android:drawable/ic_menu_agenda"
-                        android:tint="@color/rp_text_secondary"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/files_view_all"
+                    android:textColor="@color/rp_neon_green"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="package.json"
-                        android:textColor="@color/rp_text_primary"
-                        android:textSize="15sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/ivFile4Arrow"
-                        app:layout_constraintStart_toEndOf="@id/ivFile4Icon"
-                        app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <ImageView
-                        android:id="@+id/ivFile4Arrow"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:contentDescription="Open"
-                        android:src="@android:drawable/ic_media_next"
-                        android:tint="@color/rp_text_secondary"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- File Item 5 -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/fileCard5"
-                android:layout_width="0dp"
+            <!-- Recent files RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerRecentFiles"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="@color/rp_surface"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fileCard4">
+                android:layout_marginTop="10dp"
+                android:nestedScrollingEnabled="false" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:id="@+id/ivFile5Icon"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:contentDescription="File"
-                        android:src="@android:drawable/ic_menu_agenda"
-                        android:tint="@color/rp_text_secondary"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="README.md"
-                        android:textColor="@color/rp_text_primary"
-                        android:textSize="15sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/ivFile5Arrow"
-                        app:layout_constraintStart_toEndOf="@id/ivFile5Icon"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/ivFile5Arrow"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:contentDescription="Open"
-                        android:src="@android:drawable/ic_media_next"
-                        android:tint="@color/rp_text_secondary"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 

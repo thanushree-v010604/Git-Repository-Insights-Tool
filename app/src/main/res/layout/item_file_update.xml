@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:layout_marginBottom="8dp"
+    app:cardBackgroundColor="@color/rp_surface"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    app:strokeColor="@color/rp_border"
+    app:strokeWidth="1dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp">
+
+        <!-- Icon square -->
+        <FrameLayout
+            android:id="@+id/viewIconBg"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_file_icon_square"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
+
+            <ImageView
+                android:id="@+id/ivFileType"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:contentDescription="File type" />
+        </FrameLayout>
+
+        <!-- File name + updated text -->
+        <TextView
+            android:id="@+id/tvFileName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/rp_text_primary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/viewIconBg"
+            app:layout_constraintEnd_toStartOf="@id/tvAdditions"
+            app:layout_constraintTop_toTopOf="@id/viewIconBg" />
+
+        <TextView
+            android:id="@+id/tvUpdatedAt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/rp_text_muted"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/viewIconBg"
+            app:layout_constraintEnd_toStartOf="@id/tvAdditions"
+            app:layout_constraintTop_toBottomOf="@id/tvFileName" />
+
+        <!-- Additions / deletions -->
+        <TextView
+            android:id="@+id/tvAdditions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+142"
+            android:textColor="@color/rp_status_healthy"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/tvDeletions"
+            app:layout_constraintTop_toTopOf="@id/tvFileName" />
+
+        <TextView
+            android:id="@+id/tvDeletions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="-12"
+            android:textColor="#FF4A4A"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvFileName" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

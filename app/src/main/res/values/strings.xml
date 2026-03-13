@@ -27,6 +27,24 @@
     <string name="nav_activity">Activity</string>
     <string name="nav_files">Files</string>
     <string name="nav_settings">Settings</string>
+    <string name="contributor_insights">Contributor Insights</string>
+    <string name="back">Back</string>
+    <string name="share">Share</string>
+    <string name="impact_distribution">Impact Distribution</string>
+    <string name="total_label">Total</string>
+    <string name="total_value">1,482</string>
+    <string name="legend_core">Core — 45%</string>
+    <string name="legend_ui">UI/UX — 25%</string>
+    <string name="legend_api">API — 15%</string>
+    <string name="legend_docs">Docs — 15%</string>
+    <string name="weekly_growth">Weekly Growth</string>
+    <string name="growth_value">+12.4%</string>
+    <string name="trend_up">Trend Up</string>
+    <string name="review_speed">Review Speed</string>
+    <string name="speed_value">4.2h</string>
+    <string name="lightning">Lightning</string>
+    <string name="top_contributors">Top Contributors</string>
+    <string name="profile_image">Profile</string>
     <string name="placeholder_insights">Insights screen coming soon</string>
     <string name="placeholder_activity">Activity screen coming soon</string>
     <string name="placeholder_files">Files screen coming soon</string>
@@ -36,4 +54,81 @@
     <string name="paste_link">Paste link</string>
     <string name="repo_icon">Repository icon</string>
     <string name="open_repo">Open repository</string>
+    <string name="activity_title_commit">Commit Activity</string>
+    <string name="content_desc_back">Back</string>
+    <string name="content_desc_share">Share</string>
+    <string name="content_desc_menu">Menu</string>
+
+    <string name="activity_total_commits_title">Total Commits</string>
+    <string name="activity_total_commits_value">1,284</string>
+    <string name="activity_total_commits_delta">+12%</string>
+    <string name="activity_total_commits_subtitle">from previous month</string>
+
+    <string name="activity_peak_title">Peak Activity</string>
+    <string name="activity_peak_value">84</string>
+    <string name="activity_peak_badge">Oct 24</string>
+    <string name="activity_peak_subtitle">highest daily volume</string>
+
+    <string name="activity_avg_title">Avg. per Day</string>
+    <string name="activity_avg_value">42.8</string>
+    <string name="activity_avg_badge">+5%</string>
+    <string name="activity_avg_subtitle">velocity across 30 days</string>
+
+    <string name="activity_chart_title">Commits per Day</string>
+    <string name="activity_chart_range">Sep 25 - Oct 25</string>
+    <string name="activity_chart_toggle_30d">30D</string>
+    <string name="activity_chart_toggle_90d">90D</string>
+
+    <string name="activity_weekly_trends_title">Weekly Trends</string>
+    <string name="files_title">File Activity</string>
+    <string name="content_desc_search">Search</string>
+
+    <string name="files_total_changes_title">Total Changes</string>
+    <string name="files_total_changes_value">1,284</string>
+    <string name="files_total_changes_delta">+12%</string>
+    <string name="files_total_changes_trend_desc">Trend</string>
+
+    <string name="files_most_modified_header">MOST MODIFIED FILES</string>
+    <string name="files_index_js">index.js</string>
+    <string name="files_index_js_changes">412 changes</string>
+    <string name="files_auth_service">auth_service.py</string>
+    <string name="files_auth_service_changes">298 changes</string>
+    <string name="files_dashboard_v2">dashboard_v2.tsx</string>
+    <string name="files_dashboard_v2_changes">156 changes</string>
+    <string name="files_readme">README.md</string>
+    <string name="files_readme_changes">84 changes</string>
+
+    <string name="files_recent_updates">Recent Updates</string>
+    <string name="files_view_all">View All</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_profile_name">Alex Rivera</string>
+    <string name="settings_profile_email">alex.rivera@repo-pulse.io</string>
+    <string name="settings_pro_member_badge">Pro Member</string>
+    <string name="settings_theme_section_title">THEME</string>
+    <string name="settings_light_mode">Light Mode</string>
+    <string name="settings_green_juice_mode">Green Juice Mode</string>
+    <string name="settings_profile_photo_cd">Profile photo</string>
+    <string name="settings_edit_profile_cd">Edit profile</string>
+    <string name="settings_profile_info_icon_cd">Profile info</string>
+    <string name="settings_open_icon_cd">Open</string>
+    <string name="settings_account_section_title">ACCOUNT</string>
+    <string name="settings_profile_info_title">Profile Information</string>
+    <string name="settings_profile_info_subtitle">Name, email, and bio</string>
+    <string name="settings_security_title">Security</string>
+    <string name="settings_security_subtitle">Password and 2FA</string>
+    <string name="settings_notifications_section_title">NOTIFICATIONS</string>
+    <string name="settings_push_notifications_title">Push Notifications</string>
+    <string name="settings_push_notifications_subtitle">Alerts for repo changes</string>
+    <string name="settings_integrations_section_title">INTEGRATIONS</string>
+    <string name="settings_github_title">GitHub</string>
+    <string name="settings_github_connection_title">GitHub Connection</string>
+    <string name="settings_github_connection_subtitle">Connected: @arivera-dev</string>
+    <string name="settings_about_section_title">ABOUT</string>
+    <string name="settings_app_version_icon_cd">App version</string>
+    <string name="settings_app_version_title">App Version</string>
+    <string name="settings_app_version_value">v2.4.0 (Build 892)</string>
+    <string name="settings_privacy_policy_title">Privacy Policy</string>
+    <string name="settings_privacy_policy_icon_cd">Privacy Policy</string>
+    <string name="settings_privacy_policy_link_cd">Open Privacy Policy</string>
+    <string name="settings_sign_out">Sign Out</string>
 </resources>
