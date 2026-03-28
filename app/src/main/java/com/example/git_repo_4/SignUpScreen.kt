@@ -20,6 +20,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.git_repo_4.ui.theme.Git_repo_4Theme
 
+private val SignUpBgTop = Color(0xFFF6F1EB)
+private val SignUpBgMid = Color(0xFFEDE4DA)
+private val SignUpBgBottom = Color(0xFFD6BFA7)
+private val SignUpPrimary = Color(0xFFD6BFA7)
+private val SignUpSecondary = Color(0xFFE0D5C8)
+private val SignUpAccent = Color(0xFFB08968)
+private val SignUpTextPrimary = Color(0xFF3B2A1F)
+private val SignUpTextSecondary = Color(0xFF7B6A58)
+private val SignUpDivider = Color(0xFFE0D5C8)
+
 @Composable
 fun SignUpScreen(
     onSignUpClick: (String, String, String) -> Unit = { _, _, _ -> },
@@ -35,11 +45,7 @@ fun SignUpScreen(
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFF2D4A2B),
-                        Color(0xFF1A2E19),
-                        Color(0xFF0D1A0D)
-                    )
+                    colors = listOf(SignUpBgTop, SignUpBgMid, SignUpBgBottom)
                 )
             )
     ) {
@@ -55,7 +61,7 @@ fun SignUpScreen(
                 text = "Create Account",
                 fontSize = 48.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF6CBF47),
+                color = SignUpTextPrimary,
                 textAlign = TextAlign.Center
             )
 
@@ -65,7 +71,7 @@ fun SignUpScreen(
             Text(
                 text = "Sign up to get started",
                 fontSize = 18.sp,
-                color = Color(0xFF9E9E9E),
+                color = SignUpTextSecondary,
                 textAlign = TextAlign.Center
             )
 
@@ -75,18 +81,18 @@ fun SignUpScreen(
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
-                label = { Text("Name", color = Color(0xFF9E9E9E)) },
+                label = { Text("Name", color = SignUpTextSecondary) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF6CBF47),
-                    unfocusedBorderColor = Color(0xFF4A4A4A),
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
-                    cursorColor = Color(0xFF6CBF47),
-                    focusedLabelColor = Color(0xFF6CBF47),
-                    unfocusedLabelColor = Color(0xFF9E9E9E)
+                    focusedBorderColor = SignUpAccent,
+                    unfocusedBorderColor = SignUpSecondary,
+                    focusedTextColor = SignUpTextPrimary,
+                    unfocusedTextColor = SignUpTextPrimary,
+                    cursorColor = SignUpAccent,
+                    focusedLabelColor = SignUpAccent,
+                    unfocusedLabelColor = SignUpTextSecondary
                 ),
                 shape = RoundedCornerShape(16.dp),
                 singleLine = true
@@ -98,18 +104,18 @@ fun SignUpScreen(
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Email", color = Color(0xFF9E9E9E)) },
+                label = { Text("Email", color = SignUpTextSecondary) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF6CBF47),
-                    unfocusedBorderColor = Color(0xFF4A4A4A),
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
-                    cursorColor = Color(0xFF6CBF47),
-                    focusedLabelColor = Color(0xFF6CBF47),
-                    unfocusedLabelColor = Color(0xFF9E9E9E)
+                    focusedBorderColor = SignUpAccent,
+                    unfocusedBorderColor = SignUpSecondary,
+                    focusedTextColor = SignUpTextPrimary,
+                    unfocusedTextColor = SignUpTextPrimary,
+                    cursorColor = SignUpAccent,
+                    focusedLabelColor = SignUpAccent,
+                    unfocusedLabelColor = SignUpTextSecondary
                 ),
                 shape = RoundedCornerShape(16.dp),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -122,18 +128,18 @@ fun SignUpScreen(
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password", color = Color(0xFF9E9E9E)) },
+                label = { Text("Password", color = SignUpTextSecondary) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF6CBF47),
-                    unfocusedBorderColor = Color(0xFF4A4A4A),
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
-                    cursorColor = Color(0xFF6CBF47),
-                    focusedLabelColor = Color(0xFF6CBF47),
-                    unfocusedLabelColor = Color(0xFF9E9E9E)
+                    focusedBorderColor = SignUpAccent,
+                    unfocusedBorderColor = SignUpSecondary,
+                    focusedTextColor = SignUpTextPrimary,
+                    unfocusedTextColor = SignUpTextPrimary,
+                    cursorColor = SignUpAccent,
+                    focusedLabelColor = SignUpAccent,
+                    unfocusedLabelColor = SignUpTextSecondary
                 ),
                 shape = RoundedCornerShape(16.dp),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -142,7 +148,7 @@ fun SignUpScreen(
                     TextButton(onClick = { passwordVisible = !passwordVisible }) {
                         Text(
                             text = "Show",
-                            color = Color(0xFF6CBF47),
+                            color = SignUpAccent,
                             fontSize = 14.sp
                         )
                     }
@@ -159,7 +165,8 @@ fun SignUpScreen(
                     .fillMaxWidth()
                     .height(56.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF3D5A3B)
+                    containerColor = SignUpPrimary,
+                    contentColor = SignUpTextPrimary
                 ),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -167,7 +174,7 @@ fun SignUpScreen(
                     text = "Sign Up",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = SignUpTextPrimary
                 )
             }
 
@@ -180,18 +187,18 @@ fun SignUpScreen(
             ) {
                 HorizontalDivider(
                     modifier = Modifier.weight(1f),
-                    color = Color(0xFF4A4A4A),
+                    color = SignUpDivider,
                     thickness = 1.dp
                 )
                 Text(
                     text = " OR ",
-                    color = Color(0xFF9E9E9E),
+                    color = SignUpTextSecondary,
                     fontSize = 14.sp,
                     modifier = Modifier.padding(horizontal = 8.dp)
                 )
                 HorizontalDivider(
                     modifier = Modifier.weight(1f),
-                    color = Color(0xFF4A4A4A),
+                    color = SignUpDivider,
                     thickness = 1.dp
                 )
             }
@@ -205,13 +212,13 @@ fun SignUpScreen(
             ) {
                 Text(
                     text = "Already have an account? ",
-                    color = Color(0xFF9E9E9E),
+                    color = SignUpTextSecondary,
                     fontSize = 14.sp
                 )
                 TextButton(onClick = onLoginClick) {
                     Text(
                         text = "Login",
-                        color = Color(0xFF6CBF47),
+                        color = SignUpAccent,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -228,4 +235,3 @@ fun SignUpScreenPreview() {
         SignUpScreen()
     }
 }
-

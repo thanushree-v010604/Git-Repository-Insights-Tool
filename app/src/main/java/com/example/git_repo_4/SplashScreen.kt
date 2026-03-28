@@ -22,11 +22,19 @@ import androidx.compose.ui.unit.sp
 import com.example.git_repo_4.ui.theme.Git_repo_4Theme
 import kotlinx.coroutines.delay
 
+private val SplashBgTop = Color(0xFFF6F1EB)
+private val SplashBgMid = Color(0xFFEDE4DA)
+private val SplashBgBottom = Color(0xFFD6BFA7)
+private val SplashAccent = Color(0xFFB08968)
+private val SplashSurface = Color(0xFFE0D5C8)
+private val SplashTextPrimary = Color(0xFF3B2A1F)
+private val SplashTextSecondary = Color(0xFF7B6A58)
+
 @Composable
 fun SplashScreen(
     onTimeout: () -> Unit = {}
 ) {
-    var progress by remember { mutableStateOf(0f) }
+    var progress by remember { mutableFloatStateOf(0f) }
     val infiniteTransition = rememberInfiniteTransition(label = "rotation")
 
     val rotationAngle by infiniteTransition.animateFloat(
@@ -39,7 +47,7 @@ fun SplashScreen(
         label = "rotation"
     )
 
-    // Navigate to login screen after 5 seconds
+    // Navigate to log in screen after 5 seconds
     LaunchedEffect(Unit) {
         // Animate progress from 0 to 1 over 5 seconds
         val duration = 5000L
@@ -59,11 +67,7 @@ fun SplashScreen(
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFF1A3A2B),
-                        Color(0xFF0D1F17),
-                        Color(0xFF000000)
-                    )
+                    colors = listOf(SplashBgTop, SplashBgMid, SplashBgBottom)
                 )
             ),
         contentAlignment = Alignment.Center
@@ -81,7 +85,7 @@ fun SplashScreen(
                 // Outer circle border
                 Canvas(modifier = Modifier.size(200.dp)) {
                     drawCircle(
-                        color = Color(0xFF2D4A3B),
+                        color = SplashSurface,
                         radius = size.minDimension / 2,
                         style = Stroke(width = 2.dp.toPx())
                     )
@@ -95,13 +99,13 @@ fun SplashScreen(
 
                     // Left vertical line with circles
                     drawCircle(
-                        color = Color(0xFF6CBF47),
+                        color = SplashAccent,
                         radius = 8.dp.toPx(),
                         center = Offset(centerX - 30.dp.toPx(), centerY - 40.dp.toPx())
                     )
 
                     drawLine(
-                        color = Color(0xFF6CBF47),
+                        color = SplashAccent,
                         start = Offset(centerX - 30.dp.toPx(), centerY - 32.dp.toPx()),
                         end = Offset(centerX - 30.dp.toPx(), centerY + 32.dp.toPx()),
                         strokeWidth = strokeWidth,
@@ -109,14 +113,14 @@ fun SplashScreen(
                     )
 
                     drawCircle(
-                        color = Color(0xFF6CBF47),
+                        color = SplashAccent,
                         radius = 8.dp.toPx(),
                         center = Offset(centerX - 30.dp.toPx(), centerY + 40.dp.toPx())
                     )
 
                     // Curved connector
                     drawLine(
-                        color = Color(0xFF6CBF47),
+                        color = SplashAccent,
                         start = Offset(centerX - 30.dp.toPx(), centerY + 32.dp.toPx()),
                         end = Offset(centerX - 10.dp.toPx(), centerY + 32.dp.toPx()),
                         strokeWidth = strokeWidth,
@@ -124,7 +128,7 @@ fun SplashScreen(
                     )
 
                     drawLine(
-                        color = Color(0xFF6CBF47),
+                        color = SplashAccent,
                         start = Offset(centerX - 10.dp.toPx(), centerY + 32.dp.toPx()),
                         end = Offset(centerX + 20.dp.toPx(), centerY + 10.dp.toPx()),
                         strokeWidth = strokeWidth,
@@ -133,7 +137,7 @@ fun SplashScreen(
 
                     // Right vertical line with circle
                     drawLine(
-                        color = Color(0xFF6CBF47),
+                        color = SplashAccent,
                         start = Offset(centerX + 20.dp.toPx(), centerY + 10.dp.toPx()),
                         end = Offset(centerX + 20.dp.toPx(), centerY + 32.dp.toPx()),
                         strokeWidth = strokeWidth,
@@ -141,7 +145,7 @@ fun SplashScreen(
                     )
 
                     drawCircle(
-                        color = Color(0xFF6CBF47),
+                        color = SplashAccent,
                         radius = 8.dp.toPx(),
                         center = Offset(centerX + 20.dp.toPx(), centerY + 40.dp.toPx())
                     )
@@ -159,14 +163,14 @@ fun SplashScreen(
                     text = "Repo",
                     fontSize = 48.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White,
+                    color = SplashTextPrimary,
                     letterSpacing = 0.sp
                 )
                 Text(
                     text = "Pulse",
                     fontSize = 48.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF6CBF47),
+                    color = SplashAccent,
                     letterSpacing = 0.sp
                 )
             }
@@ -177,7 +181,7 @@ fun SplashScreen(
             Text(
                 text = "A tool that visualizes and analyzes Git repository \n activity and development patterns",
                 fontSize = 14.sp,
-                color = Color(0xFF9E9E9E),
+                color = SplashTextSecondary,
                 textAlign = TextAlign.Center,
                 lineHeight = 20.sp
             )
@@ -193,12 +197,12 @@ fun SplashScreen(
                 Text(
                     text = "Initializing workspace",
                     fontSize = 14.sp,
-                    color = Color(0xFF9E9E9E)
+                    color = SplashTextSecondary
                 )
                 Text(
                     text = "${(progress * 100).toInt()}%",
                     fontSize = 14.sp,
-                    color = Color(0xFF6CBF47),
+                    color = SplashAccent,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -207,12 +211,12 @@ fun SplashScreen(
 
             // Progress Bar
             LinearProgressIndicator(
-                progress = progress,
+                progress = { progress },
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .height(6.dp),
-                color = Color(0xFF6CBF47),
-                trackColor = Color(0xFF2D4A3B)
+                color = SplashAccent,
+                trackColor = SplashSurface
             )
 
             Spacer(modifier = Modifier.height(60.dp))
@@ -228,10 +232,7 @@ fun SplashScreen(
                     )
                     .background(
                         brush = Brush.horizontalGradient(
-                            colors = listOf(
-                                Color(0xFF2D4A3B),
-                                Color(0xFF1A3A2B)
-                            )
+                            colors = listOf(SplashSurface, SplashBgBottom)
                         ),
                         shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp)
                     ),
@@ -244,7 +245,7 @@ fun SplashScreen(
                     // Rotating sync icon (simplified)
                     Canvas(modifier = Modifier.size(16.dp)) {
                         drawArc(
-                            color = Color(0xFF6CBF47),
+                            color = SplashAccent,
                             startAngle = rotationAngle,
                             sweepAngle = 300f,
                             useCenter = false,
@@ -257,7 +258,7 @@ fun SplashScreen(
                     Text(
                         text = "SYSTEM SYNCING",
                         fontSize = 12.sp,
-                        color = Color(0xFF6CBF47),
+                        color = SplashAccent,
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 1.sp
                     )
@@ -274,4 +275,3 @@ fun SplashScreenPreview() {
         SplashScreen()
     }
 }
-

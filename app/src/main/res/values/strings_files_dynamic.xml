@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dynamic text formats for FilesFragment -->
+    <string name="files_dynamic_changes_format">%1$d changes</string>
+    <string name="files_updated_time_format">Updated %1$s</string>
+
+    <!-- Static labels used in fragment_files.xml for the fourth file row -->
+    <string name="files_changelog_md">CHANGELOG.md</string>
+    <string name="files_changelog_md_changes">+28 / -6</string>
+
+    <!-- Dynamic formats for FilesFragment -->
+    <string name="files_top_file_changes">%1$d changes</string>
+</resources>

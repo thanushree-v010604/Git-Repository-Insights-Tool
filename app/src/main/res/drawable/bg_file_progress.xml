@@ -3,8 +3,7 @@
     <item android:id="@android:id/progress">
         <shape android:shape="rectangle">
             <corners android:radius="4dp" />
-            <solid android:color="@color/rp_neon_green" />
+            <solid android:color="@color/rp_status_healthy" />
         </shape>
     </item>
 </layer-list>
-

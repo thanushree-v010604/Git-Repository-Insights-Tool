@@ -209,38 +209,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tvRecentlyAnalyzed" />
 
-            <!-- Repository Card 1 -->
-            <include
-                android:id="@+id/repoCard1"
-                layout="@layout/item_repo_card"
+            <!-- Dynamic Recently Analyzed list replacing static repoCard includes -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRecentRepos"
                 android:layout_width="0dp"
-                android:layout_height="72dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:overScrollMode="never"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvRecentlyAnalyzed" />
-
-            <!-- Repository Card 2 -->
-            <include
-                android:id="@+id/repoCard2"
-                layout="@layout/item_repo_card"
-                android:layout_width="0dp"
-                android:layout_height="72dp"
-                android:layout_marginTop="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/repoCard1" />
-
-            <!-- Repository Card 3 -->
-            <include
-                android:id="@+id/repoCard3"
-                layout="@layout/item_repo_card"
-                android:layout_width="0dp"
-                android:layout_height="72dp"
-                android:layout_marginTop="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/repoCard2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

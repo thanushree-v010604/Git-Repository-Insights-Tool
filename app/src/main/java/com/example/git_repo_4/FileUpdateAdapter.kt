@@ -18,8 +18,33 @@ data class FileUpdate(
     val type: FileUpdateType
 )
 
-class FileUpdateAdapter(private val items: List<FileUpdate>) :
+class FileUpdateAdapter(items: List<FileUpdate>) :
     RecyclerView.Adapter<FileUpdateAdapter.FileUpdateViewHolder>() {
+
+    private val allItems = items.toMutableList()
+    private val filteredItems = items.toMutableList()
+    private var currentQuery: String = ""
+
+    fun submitItems(items: List<FileUpdate>) {
+        allItems.clear()
+        allItems.addAll(items)
+        applyFilter(currentQuery)
+    }
+
+    fun filter(query: String) {
+        currentQuery = query.trim()
+        applyFilter(currentQuery)
+    }
+
+    private fun applyFilter(query: String) {
+        filteredItems.clear()
+        if (query.isEmpty()) {
+            filteredItems.addAll(allItems)
+        } else {
+            filteredItems.addAll(allItems.filter { it.fileName.contains(query, ignoreCase = true) })
+        }
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileUpdateViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -28,10 +53,10 @@ class FileUpdateAdapter(private val items: List<FileUpdate>) :
     }
 
     override fun onBindViewHolder(holder: FileUpdateViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(filteredItems[position])
     }
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = filteredItems.size
 
     class FileUpdateViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val iconBg: View = view.findViewById(R.id.viewIconBg)

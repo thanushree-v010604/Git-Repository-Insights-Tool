@@ -1,6 +1,26 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+}
+
+// Keep intermediates outside OneDrive to prevent processDebugJavaRes delete/snapshot races.
+val localAppData: String? = System.getenv("LOCALAPPDATA")
+if (!localAppData.isNullOrBlank()) {
+    layout.buildDirectory.set(file("$localAppData/Gradle/RepoPulse/build/app"))
+}
+
+val localBuildProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) {
+        file.inputStream().use(::load)
+    }
+}
+
+fun readBuildProperty(key: String): String {
+    val projectValue = (project.findProperty(key) as? String).orEmpty()
+    return projectValue.ifBlank { localBuildProperties.getProperty(key).orEmpty() }
 }
 
 android {
@@ -19,6 +39,25 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val escapeForBuildConfig: (String) -> String = { raw ->
+            raw.replace("\\", "\\\\").replace("\"", "\\\"")
+        }
+
+        val rawGitHubToken: String = readBuildProperty("github.token")
+        buildConfigField("String", "GITHUB_TOKEN", "\"${escapeForBuildConfig(rawGitHubToken)}\"")
+
+        val firebaseApiKey = readBuildProperty("firebase.apiKey")
+        val firebaseAppId = readBuildProperty("firebase.appId")
+        val firebaseProjectId = readBuildProperty("firebase.projectId")
+        val firebaseStorageBucket = readBuildProperty("firebase.storageBucket")
+        val firebaseSenderId = readBuildProperty("firebase.gcmSenderId")
+
+        buildConfigField("String", "FIREBASE_API_KEY", "\"${escapeForBuildConfig(firebaseApiKey)}\"")
+        buildConfigField("String", "FIREBASE_APP_ID", "\"${escapeForBuildConfig(firebaseAppId)}\"")
+        buildConfigField("String", "FIREBASE_PROJECT_ID", "\"${escapeForBuildConfig(firebaseProjectId)}\"")
+        buildConfigField("String", "FIREBASE_STORAGE_BUCKET", "\"${escapeForBuildConfig(firebaseStorageBucket)}\"")
+        buildConfigField("String", "FIREBASE_GCM_SENDER_ID", "\"${escapeForBuildConfig(firebaseSenderId)}\"")
     }
 
     buildTypes {
@@ -37,6 +76,7 @@ android {
     buildFeatures {
         compose = true
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -55,6 +95,19 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.mpandroidchart)
     implementation(libs.androidx.recyclerview)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.gson)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.glide)
+
+    // Firebase dependencies (manual runtime initialization; no Google Services plugin)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -64,18 +117,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
 
-// Clean stale resource intermediates before each build (OneDrive lock/cache workaround).
-tasks.named("preBuild") {
-    doFirst {
-        delete(
-            layout.buildDirectory.dir("intermediates/packaged_res"),
-            layout.buildDirectory.dir("intermediates/incremental/debug/mergeDebugResources"),
-            layout.buildDirectory.dir("intermediates/merged_res"),
-            layout.buildDirectory.dir("intermediates/dex/debug/mergeProjectDexDebug"),
-            // Also clean merged_res_blame_folder and incremental packageDebugResources to avoid
-            // Gradle snapshotting corrupt or non-regular files on OneDrive.
-            layout.buildDirectory.dir("intermediates/merged_res_blame_folder"),
-            layout.buildDirectory.dir("intermediates/incremental/debug/packageDebugResources")
-        )
-    }
-}
+// Note: any cleanup of build intermediates on Windows/OneDrive is now handled by
+// the external PowerShell script build_fix.ps1 to avoid file-lock related
+// AccessDeniedException during Gradle tasks like dexBuilderDebug.

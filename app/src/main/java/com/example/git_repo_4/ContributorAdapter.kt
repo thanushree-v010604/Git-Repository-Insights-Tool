@@ -31,6 +31,8 @@ class ContributorAdapter(private val contributors: List<Contributor>) :
         holder.tvRole.text        = contributor.role
         holder.tvCommitCount.text = contributor.commitCount
         holder.tvWeeklyChange.text = contributor.weeklyChange
+        // For now keep the circular text avatar. This can later be replaced with a Glide-loaded
+        // image while preserving the existing view id and shape.
         holder.tvProfileInitial.text = contributor.name.firstOrNull()?.uppercase() ?: "-"
     }
 

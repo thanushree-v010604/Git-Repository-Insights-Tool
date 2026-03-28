@@ -131,4 +131,86 @@
     <string name="settings_privacy_policy_icon_cd">Privacy Policy</string>
     <string name="settings_privacy_policy_link_cd">Open Privacy Policy</string>
     <string name="settings_sign_out">Sign Out</string>
+    <string name="invalid_repo_url_message">Please enter a valid GitHub repository URL (e.g., https://github.com/owner/repo)</string>
+    <string name="loading_repo_message">Loading repository details…</string>
+    <string name="error_empty_response">No repository details available.</string>
+    <string name="error_repo_request_failed">Failed to load repository (HTTP %1$d).</string>
+    <string name="error_repo_request_exception">Error loading repository: %1$s</string>
+    <string name="error_too_many_requests">Too many requests. Please wait a moment and try again.</string>
+    <string name="error_no_internet_connection">No internet connection</string>
+    <string name="loaded_cached_repo_message">Showing last saved repository data.</string>
+    <string name="repo_summary_toast">%1$s\nStars: %2$d | Forks: %3$d | Language: %4$s</string>
+
+    <string name="insights_back">Back</string>
+    <string name="insights_title">Contributor Insights</string>
+    <string name="insights_share">Share</string>
+    <string name="insights_impact_distribution">Impact Distribution</string>
+    <string name="insights_total_value">1,482</string>
+    <string name="insights_total_label">Total</string>
+    <string name="insights_weekly_growth">Weekly Growth</string>
+    <string name="insights_trend_up">Trend Up</string>
+    <string name="insights_weekly_growth_value">+12.4%%</string>
+    <string name="insights_review_speed">Review Speed</string>
+    <string name="insights_lightning">Lightning</string>
+    <string name="insights_review_speed_value">4.2h</string>
+    <string name="insights_top_contributors">Top Contributors</string>
+    <string name="insights_view_all">View All</string>
+    <string name="analyzed_recently">Analyzed recently</string>
+    <!-- Insights metrics & formatting -->
+    <string name="insights_total_commits_label">Commits</string>
+    <string name="insights_total_commits_placeholder">--</string>
+    <string name="insights_weekly_growth_placeholder">+0%%</string>
+    <string name="insights_review_speed_placeholder">-- h</string>
+    <string name="insights_percent_placeholder">--%%</string>
+    <string name="insights_review_speed_format">%1$d h</string>
+    <string name="insights_weekly_growth_format">+%1$d%%</string>
+    <string name="insights_commit_count_format">%1$d commits</string>
+    <string name="insights_commit_count_static_format">%1$d commits</string>
+    <string name="insights_weekly_change_format">+%1$d this week</string>
+    <string name="insights_percent_value_format">%1$d%%</string>
+    <string name="insights_language_core_label">Core</string>
+    <string name="insights_language_ui_label">UI/UX</string>
+    <string name="insights_language_api_label">API</string>
+    <string name="insights_language_docs_label">Docs</string>
+    <string name="insights_language_other_label">Other</string>
+    <string name="insights_role_top_contributor">Top contributor</string>
+    <string name="insights_core_percent_labeled">Core \\u2014 %1$d%%</string>
+    <string name="insights_ui_percent_labeled">UI/UX \\u2014 %1$d%%</string>
+    <string name="insights_api_percent_labeled">API \\u2014 %1$d%%</string>
+    <string name="insights_docs_percent_labeled">Docs \u2014 %1$d%%</string>
+
+    <!-- AI-based repository analysis strings -->
+    <string name="insights_health_title">Repository Health</string>
+    <string name="insights_health_excellent">
+
+        \\uD83D\\uDFE2 Excellent
+    </string>
+    <string name="insights_health_healthy_smart">
+
+        \\uD83D\\uDFE2 Healthy
+    </string>
+    <string name="insights_health_moderate_smart">
+
+        \\uD83D\\uDFE1 Moderate
+    </string>
+    <string name="insights_health_needs_improvement_smart">
+
+        \\uD83D\\uDD34 Needs Improvement
+    </string>
+    <string name="insights_health_placeholder">Health analysis pending</string>
+
+    <string name="insights_risks_title">Risks</string>
+    <string name="insights_risk_single_or_low_contributors">&#9888; Single or low contributor dependency</string>
+    <string name="insights_risk_low_activity_dynamic">&#9888; Low repository activity</string>
+    <string name="insights_risk_low_adoption">&#9888; Low community adoption</string>
+    <string name="insights_risk_outdated">&#9888; Repository may be outdated</string>
+    <string name="insights_risks_placeholder">No significant risks detected yet.</string>
+
+    <string name="insights_suggestions_title">Improvement Suggestions</string>
+    <string name="insights_suggestion_add_contributors">&#128161; Add more contributors to reduce dependency risk</string>
+    <string name="insights_suggestion_increase_commits">&#128161; Increase commit frequency</string>
+    <string name="insights_suggestion_improve_visibility">&#128161; Improve project visibility and documentation</string>
+    <string name="insights_suggestion_resume_development">&#128161; Resume active development</string>
+    <string name="insights_suggestion_well_maintained">&#128161; Repository is well maintained</string>
+    <string name="insights_suggestions_placeholder">Suggestions will appear after analysis.</string>
 </resources>

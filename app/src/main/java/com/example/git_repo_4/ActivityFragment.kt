@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.git_repo_4.repository.GitHubRepository
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -16,26 +19,74 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import androidx.core.graphics.toColorInt
+import com.example.git_repo_4.viewmodel.SharedRepoViewModel
+import java.io.File
 
 class ActivityFragment : Fragment(R.layout.fragment_activity) {
 
+    private val repoViewModel: SharedRepoViewModel by activityViewModels()
+    private var currentMode: String = "30"
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val chart: LineChart = view.findViewById(R.id.lineChartCommits)
         val weeklyRecycler: RecyclerView = view.findViewById(R.id.recyclerWeeklyTrends)
-        setupLineChart(chart)
-        setupWeeklyTrends(weeklyRecycler)
+        val totalCommitsText: TextView = view.findViewById(R.id.tvTotalNumber)
+        val peakText: TextView = view.findViewById(R.id.tvPeakValue)
+        val avgText: TextView = view.findViewById(R.id.tvAvgValue)
+        val dateRangeText: TextView = view.findViewById(R.id.tvDateRange)
+
+        // Observers for Activity metrics
+        repoViewModel.commitCount.observe(viewLifecycleOwner) { total ->
+            totalCommitsText.text = (total ?: getString(R.string.activity_total_commits_value).toIntOrNull()).toString()
+        }
+
+        repoViewModel.peakDay.observe(viewLifecycleOwner) { value ->
+            peakText.text = (value ?: getString(R.string.activity_peak_value).toIntOrNull()).toString()
+        }
+
+        repoViewModel.avgPerDay.observe(viewLifecycleOwner) { value ->
+            val display = value ?: 0.0
+            avgText.text = String.format(java.util.Locale.getDefault(), "%.1f", display)
+        }
+
+        // Date range text under the chart
+        repoViewModel.dateRange.observe(viewLifecycleOwner) { range ->
+            dateRangeText.text = range
+        }
+
+        // STEP 3 — mode-aware observers
+        repoViewModel.dailyCommits30.observe(viewLifecycleOwner) { data30 ->
+            if (currentMode == "30") {
+                updateChart(chart, data30)
+            }
+        }
+
+        repoViewModel.dailyCommits90.observe(viewLifecycleOwner) { data90 ->
+            if (currentMode == "90") {
+                updateChart(chart, data90)
+            }
+        }
+
+        // STEP 5 — FORCE INITIAL LOAD (defaults to 30D)
+        currentMode = "30"
+        repoViewModel.dailyCommits30.value?.let { data30 ->
+            updateChart(chart, data30)
+        }
+
+        // Weekly trends list from weeklyCommits (now based on real safeData30)
+        repoViewModel.weeklyCommits.observe(viewLifecycleOwner) { weekly ->
+            setupWeeklyTrends(weeklyRecycler, weekly)
+        }
     }
 
-    private fun setupLineChart(chart: LineChart) {
-        val points = listOf(
-            Entry(0f, 28f), Entry(1f, 31f), Entry(2f, 37f), Entry(3f, 35f), Entry(4f, 42f),
-            Entry(5f, 46f), Entry(6f, 39f), Entry(7f, 44f), Entry(8f, 52f), Entry(9f, 58f),
-            Entry(10f, 61f), Entry(11f, 54f), Entry(12f, 49f), Entry(13f, 53f), Entry(14f, 62f),
-            Entry(15f, 66f), Entry(16f, 57f), Entry(17f, 60f), Entry(18f, 72f), Entry(19f, 78f),
-            Entry(20f, 74f), Entry(21f, 68f), Entry(22f, 71f), Entry(23f, 84f), Entry(24f, 76f),
-            Entry(25f, 69f), Entry(26f, 64f), Entry(27f, 58f), Entry(28f, 62f), Entry(29f, 67f)
-        )
+    private fun updateChart(chart: LineChart, dailyData: List<Int>) {
+        val points: List<Entry> = if (dailyData.isNotEmpty()) {
+            dailyData.mapIndexed { index, value -> Entry(index.toFloat(), value.toFloat()) }
+        } else {
+            emptyList()
+        }
 
         val dataSet = LineDataSet(points, "Commits").apply {
             color = "#7ED957".toColorInt()
@@ -49,9 +100,7 @@ class ActivityFragment : Fragment(R.layout.fragment_activity) {
             valueTextColor = "#7ED957".toColorInt()
             valueTextSize = 9f
             valueFormatter = object : ValueFormatter() {
-                override fun getPointLabel(entry: Entry?): String {
-                    return if (entry?.x == 23f) "PEAK: 84" else ""
-                }
+                override fun getPointLabel(entry: Entry?): String = ""
             }
         }
 
@@ -88,11 +137,32 @@ class ActivityFragment : Fragment(R.layout.fragment_activity) {
         }
     }
 
-    private fun setupWeeklyTrends(recyclerView: RecyclerView) {
-        val rows = listOf(
-            WeeklyTrend("Week 42", "Oct 19 - Oct 25", "294 commits", "+18%", true),
-            WeeklyTrend("Week 41", "Oct 12 - Oct 18", "249 commits", "-4%", false)
-        )
+    private fun setupWeeklyTrends(recyclerView: RecyclerView, weeklyCommits: List<Int>?) {
+        val rows = if (!weeklyCommits.isNullOrEmpty()) {
+            // Map weekly sums to simple rows; keep UX design but data is dynamic
+            weeklyCommits.mapIndexed { index, total ->
+                WeeklyTrend(
+                    week = "Week ${index + 1}",
+                    range = "Recent period",
+                    commits = "$total commits",
+                    delta = "",
+                    positive = total >= 0
+                )
+            }
+        } else {
+            // Fallback to existing static content if we have no data yet
+            val commits = GitHubRepository.commits
+            if (commits.isNotEmpty()) {
+                listOf(
+                    WeeklyTrend("Recent", "Last commits", "${commits.size} commits", "", true)
+                )
+            } else {
+                listOf(
+                    WeeklyTrend("Week 42", "Oct 19 - Oct 25", "294 commits", "+18%", true),
+                    WeeklyTrend("Week 41", "Oct 12 - Oct 18", "249 commits", "-4%", false)
+                )
+            }
+        }
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = WeeklyTrendAdapter(rows)

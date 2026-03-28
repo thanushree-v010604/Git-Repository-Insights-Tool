@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/securityContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_green_gradient"
+    android:fitsSystemWindows="true">
+
+    <!-- Top Bar -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topBarSecurity"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivSecurityBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="Back"
+            android:src="@android:drawable/ic_menu_revert"
+            app:tint="@color/rp_neon_green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Security"
+            android:textColor="@color/rp_text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivSecurityBack"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="12dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Scrollable content -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topBarSecurity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="24dp">
+
+            <!-- Password Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CHANGE PASSWORD"
+                android:textColor="@color/rp_text_secondary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <!-- Current Password -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Current Password"
+                android:textColor="@color/rp_text_primary"
+                android:textSize="13sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:boxBackgroundColor="@color/rp_surface"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
+                app:boxStrokeColor="@color/rp_border"
+                app:boxStrokeWidth="1dp"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/rp_neon_green">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCurrentPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter current password"
+                    android:inputType="textPassword"
+                    android:padding="16dp"
+                    android:textColor="@color/rp_text_primary"
+                    android:textColorHint="@color/rp_text_secondary" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- New Password -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="New Password"
+                android:textColor="@color/rp_text_primary"
+                android:textSize="13sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:boxBackgroundColor="@color/rp_surface"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
+                app:boxStrokeColor="@color/rp_border"
+                app:boxStrokeWidth="1dp"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/rp_neon_green">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNewPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter new password"
+                    android:inputType="textPassword"
+                    android:padding="16dp"
+                    android:textColor="@color/rp_text_primary"
+                    android:textColorHint="@color/rp_text_secondary" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Confirm Password -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Confirm New Password"
+                android:textColor="@color/rp_text_primary"
+                android:textSize="13sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:boxBackgroundColor="@color/rp_surface"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
+                app:boxStrokeColor="@color/rp_border"
+                app:boxStrokeWidth="1dp"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/rp_neon_green">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Confirm new password"
+                    android:inputType="textPassword"
+                    android:padding="16dp"
+                    android:textColor="@color/rp_text_primary"
+                    android:textColorHint="@color/rp_text_secondary" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Change Password Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnChangePassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Change Password"
+                android:textAllCaps="false"
+                android:textSize="15sp"
+                app:backgroundTint="@color/rp_neon_green"
+                app:cornerRadius="24dp" />
+
+            <!-- Two-Factor Authentication Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="TWO-FACTOR AUTHENTICATION"
+                android:textColor="@color/rp_text_secondary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/rp_surface"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp"
+                app:strokeColor="@color/rp_border"
+                app:strokeWidth="1dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <ImageView
+                        android:id="@+id/iv2FAIcon"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@android:drawable/ic_lock_idle_lock"
+                        android:contentDescription="2FA"
+                        app:tint="@color/rp_neon_green"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toEndOf="@id/iv2FAIcon"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/switch2FA">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Enable Two-Factor Authentication"
+                            android:textColor="@color/rp_text_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Add an extra layer of security"
+                            android:textColor="@color/rp_text_secondary"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switch2FA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:thumbTint="@color/rp_neon_green"
+                        android:trackTint="@color/rp_nav_unselected"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -20,6 +20,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.git_repo_4.ui.theme.Git_repo_4Theme
 
+private val LoginBgTop = Color(0xFFF6F1EB)
+private val LoginBgMid = Color(0xFFEDE4DA)
+private val LoginBgBottom = Color(0xFFD6BFA7)
+private val LoginPrimary = Color(0xFFD6BFA7)
+private val LoginSecondary = Color(0xFFE0D5C8)
+private val LoginAccent = Color(0xFFB08968)
+private val LoginTextPrimary = Color(0xFF3B2A1F)
+private val LoginTextSecondary = Color(0xFF7B6A58)
+private val LoginDivider = Color(0xFFE0D5C8)
+
 @Composable
 fun LoginScreen(
     onLoginClick: (String, String) -> Unit = { _, _ -> },
@@ -35,11 +45,7 @@ fun LoginScreen(
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFF2D4A2B),
-                        Color(0xFF1A2E19),
-                        Color(0xFF0D1A0D)
-                    )
+                    colors = listOf(LoginBgTop, LoginBgMid, LoginBgBottom)
                 )
             )
     ) {
@@ -55,7 +61,7 @@ fun LoginScreen(
                 text = "Welcome Back",
                 fontSize = 48.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF6CBF47),
+                color = LoginTextPrimary,
                 textAlign = TextAlign.Center
             )
 
@@ -65,7 +71,7 @@ fun LoginScreen(
             Text(
                 text = "Login to your account",
                 fontSize = 18.sp,
-                color = Color(0xFF9E9E9E),
+                color = LoginTextSecondary,
                 textAlign = TextAlign.Center
             )
 
@@ -75,18 +81,18 @@ fun LoginScreen(
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Email", color = Color(0xFF9E9E9E)) },
+                label = { Text("Email", color = LoginTextSecondary) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF6CBF47),
-                    unfocusedBorderColor = Color(0xFF4A4A4A),
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
-                    cursorColor = Color(0xFF6CBF47),
-                    focusedLabelColor = Color(0xFF6CBF47),
-                    unfocusedLabelColor = Color(0xFF9E9E9E)
+                    focusedBorderColor = LoginAccent,
+                    unfocusedBorderColor = LoginSecondary,
+                    focusedTextColor = LoginTextPrimary,
+                    unfocusedTextColor = LoginTextPrimary,
+                    cursorColor = LoginAccent,
+                    focusedLabelColor = LoginAccent,
+                    unfocusedLabelColor = LoginTextSecondary
                 ),
                 shape = RoundedCornerShape(16.dp),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
@@ -99,18 +105,18 @@ fun LoginScreen(
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password", color = Color(0xFF9E9E9E)) },
+                label = { Text("Password", color = LoginTextSecondary) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(65.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color(0xFF6CBF47),
-                    unfocusedBorderColor = Color(0xFF4A4A4A),
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
-                    cursorColor = Color(0xFF6CBF47),
-                    focusedLabelColor = Color(0xFF6CBF47),
-                    unfocusedLabelColor = Color(0xFF9E9E9E)
+                    focusedBorderColor = LoginAccent,
+                    unfocusedBorderColor = LoginSecondary,
+                    focusedTextColor = LoginTextPrimary,
+                    unfocusedTextColor = LoginTextPrimary,
+                    cursorColor = LoginAccent,
+                    focusedLabelColor = LoginAccent,
+                    unfocusedLabelColor = LoginTextSecondary
                 ),
                 shape = RoundedCornerShape(16.dp),
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -119,7 +125,7 @@ fun LoginScreen(
                     TextButton(onClick = { passwordVisible = !passwordVisible }) {
                         Text(
                             text = "Show",
-                            color = Color(0xFF6CBF47),
+                            color = LoginAccent,
                             fontSize = 14.sp
                         )
                     }
@@ -137,7 +143,7 @@ fun LoginScreen(
                 TextButton(onClick = onForgotPasswordClick) {
                     Text(
                         text = "Forgot Password?",
-                        color = Color(0xFF6CBF47),
+                        color = LoginAccent,
                         fontSize = 14.sp
                     )
                 }
@@ -152,7 +158,8 @@ fun LoginScreen(
                     .fillMaxWidth()
                     .height(56.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF3D5A3B)
+                    containerColor = LoginPrimary,
+                    contentColor = LoginTextPrimary
                 ),
                 shape = RoundedCornerShape(16.dp)
             ) {
@@ -160,7 +167,7 @@ fun LoginScreen(
                     text = "Login",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = LoginTextPrimary
                 )
             }
 
@@ -173,18 +180,18 @@ fun LoginScreen(
             ) {
                 HorizontalDivider(
                     modifier = Modifier.weight(1f),
-                    color = Color(0xFF4A4A4A),
+                    color = LoginDivider,
                     thickness = 1.dp
                 )
                 Text(
                     text = " OR ",
-                    color = Color(0xFF9E9E9E),
+                    color = LoginTextSecondary,
                     fontSize = 14.sp,
                     modifier = Modifier.padding(horizontal = 8.dp)
                 )
                 HorizontalDivider(
                     modifier = Modifier.weight(1f),
-                    color = Color(0xFF4A4A4A),
+                    color = LoginDivider,
                     thickness = 1.dp
                 )
             }
@@ -198,13 +205,13 @@ fun LoginScreen(
             ) {
                 Text(
                     text = "Don't have an account? ",
-                    color = Color(0xFF9E9E9E),
+                    color = LoginTextSecondary,
                     fontSize = 14.sp
                 )
                 TextButton(onClick = onSignUpClick) {
                     Text(
                         text = "Sign Up",
-                        color = Color(0xFF6CBF47),
+                        color = LoginAccent,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -221,4 +228,3 @@ fun LoginScreenPreview() {
         LoginScreen()
     }
 }
-
