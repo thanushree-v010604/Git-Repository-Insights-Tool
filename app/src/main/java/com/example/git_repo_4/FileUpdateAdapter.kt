@@ -91,9 +91,9 @@ class FileUpdateAdapter(items: List<FileUpdate>) :
             // Accent square background
             iconBg.setBackgroundResource(R.drawable.bg_file_icon_square)
 
-            // Color additions/deletions text using KTX extension
-            tvAdditions.setTextColor("#57D66A".toColorInt())
-            tvDeletions.setTextColor("#FF4A4A".toColorInt())
+            // Color additions/deletions text using neon-blue themed accents
+            tvAdditions.setTextColor("#00E5FF".toColorInt())
+            tvDeletions.setTextColor("#7AA6B2".toColorInt())
         }
     }
 }

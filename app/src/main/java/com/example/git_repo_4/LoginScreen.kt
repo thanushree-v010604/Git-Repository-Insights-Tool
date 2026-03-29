@@ -20,15 +20,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.git_repo_4.ui.theme.Git_repo_4Theme
 
-private val LoginBgTop = Color(0xFFF6F1EB)
-private val LoginBgMid = Color(0xFFEDE4DA)
-private val LoginBgBottom = Color(0xFFD6BFA7)
-private val LoginPrimary = Color(0xFFD6BFA7)
-private val LoginSecondary = Color(0xFFE0D5C8)
-private val LoginAccent = Color(0xFFB08968)
-private val LoginTextPrimary = Color(0xFF3B2A1F)
-private val LoginTextSecondary = Color(0xFF7B6A58)
-private val LoginDivider = Color(0xFFE0D5C8)
+private val LoginBgTop = Color(0xFF0A0F14)
+private val LoginBgMid = Color(0xFF0A0F14)
+private val LoginBgBottom = Color(0xFF101820)
+private val LoginPrimary = Color(0xFF00E5FF)
+private val LoginSecondary = Color(0xFF1F2A33)
+private val LoginAccent = Color(0xFF00F0FF)
+private val LoginTextPrimary = Color(0xFFE6F7FF)
+private val LoginTextSecondary = Color(0xFF7AA6B2)
+private val LoginDivider = Color(0xFF1F2A33)
 
 @Composable
 fun LoginScreen(

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +19,6 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import androidx.core.graphics.toColorInt
 import com.example.git_repo_4.viewmodel.SharedRepoViewModel
-import java.io.File
 
 class ActivityFragment : Fragment(R.layout.fragment_activity) {
 
@@ -89,15 +87,15 @@ class ActivityFragment : Fragment(R.layout.fragment_activity) {
         }
 
         val dataSet = LineDataSet(points, "Commits").apply {
-            color = "#7ED957".toColorInt()
+            color = "#00E5FF".toColorInt()
             lineWidth = 2.5f
             setDrawCircles(false)
             setDrawCircleHole(false)
             setDrawFilled(true)
-            fillColor = "#447ED957".toColorInt()
+            fillColor = "#3300E5FF".toColorInt()
             mode = LineDataSet.Mode.CUBIC_BEZIER
             setDrawValues(true)
-            valueTextColor = "#7ED957".toColorInt()
+            valueTextColor = "#00E5FF".toColorInt()
             valueTextSize = 9f
             valueFormatter = object : ValueFormatter() {
                 override fun getPointLabel(entry: Entry?): String = ""
@@ -115,8 +113,8 @@ class ActivityFragment : Fragment(R.layout.fragment_activity) {
             setViewPortOffsets(20f, 24f, 20f, 28f)
 
             axisLeft.apply {
-                textColor = "#B3D0C6".toColorInt()
-                gridColor = "#334A7A66".toColorInt()
+                textColor = "#7AA6B2".toColorInt()
+                gridColor = "#1F2A33".toColorInt()
                 axisMinimum = 0f
                 axisMaximum = 90f
                 setLabelCount(4, true)
@@ -126,8 +124,8 @@ class ActivityFragment : Fragment(R.layout.fragment_activity) {
 
             xAxis.apply {
                 position = XAxis.XAxisPosition.BOTTOM
-                textColor = "#B3D0C6".toColorInt()
-                gridColor = "#1A4A7A66".toColorInt()
+                textColor = "#7AA6B2".toColorInt()
+                gridColor = "#1F2A33".toColorInt()
                 valueFormatter = IndexAxisValueFormatter(listOf("Sep 25", "", "", "", "Oct 5", "", "", "", "Oct 15", "", "", "", "Oct 25"))
                 granularity = 2.5f
                 labelCount = 5
@@ -206,7 +204,7 @@ private class WeeklyTrendAdapter(
             tvCommits.text = item.commits
             tvDelta.text = item.delta
             tvDelta.setTextColor(
-                if (item.positive) "#7ED957".toColorInt() else "#F4A640".toColorInt()
+                if (item.positive) "#00E5FF".toColorInt() else "#7AA6B2".toColorInt()
             )
         }
     }

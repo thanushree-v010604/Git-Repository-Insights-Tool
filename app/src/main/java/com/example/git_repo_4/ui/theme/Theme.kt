@@ -11,27 +11,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = BeigePrimary,
-    secondary = BeigeSecondary,
-    tertiary = BeigeSecondary,
-    background = BeigeBackground,
-    surface = BeigeSurface,
-    onPrimary = BeigeTextPrimary,
-    onSecondary = BeigeTextPrimary,
-    onBackground = BeigeTextPrimary,
-    onSurface = BeigeTextPrimary
+    primary = NeonPrimary,
+    secondary = NeonSecondary,
+    tertiary = NeonSecondary,
+    background = NeonBackground,
+    surface = NeonSurface,
+    onPrimary = NeonTextPrimary,
+    onSecondary = NeonTextPrimary,
+    onBackground = NeonTextPrimary,
+    onSurface = NeonTextPrimary
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = BeigePrimary,
-    secondary = BeigeSecondary,
-    tertiary = BeigeSecondary,
-    background = BeigeBackground,
-    surface = BeigeSurface,
-    onPrimary = BeigeTextPrimary,
-    onSecondary = BeigeTextPrimary,
-    onBackground = BeigeTextPrimary,
-    onSurface = BeigeTextPrimary
+    primary = NeonPrimary,
+    secondary = NeonSecondary,
+    tertiary = NeonSecondary,
+    background = NeonBackground,
+    surface = NeonSurface,
+    onPrimary = NeonTextPrimary,
+    onSecondary = NeonTextPrimary,
+    onBackground = NeonTextPrimary,
+    onSurface = NeonTextPrimary
 )
 
 @Composable

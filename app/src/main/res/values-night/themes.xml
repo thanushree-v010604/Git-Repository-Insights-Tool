@@ -2,16 +2,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Theme.Git_repo_4" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/rp_neon_green</item>
-        <item name="colorPrimaryVariant">@color/rp_bg_end</item>
+        <item name="colorPrimaryVariant">@color/rp_status_updated</item>
         <item name="colorOnPrimary">@color/rp_dark_text</item>
-        <item name="colorSecondary">@color/rp_status_healthy</item>
+        <item name="colorSecondary">@color/rp_status_review</item>
         <item name="colorOnSecondary">@color/rp_dark_text</item>
         <item name="android:colorBackground">@color/rp_bg_start</item>
         <item name="colorSurface">@color/rp_surface</item>
         <item name="android:statusBarColor">@color/rp_bg_start</item>
         <item name="android:navigationBarColor">@color/rp_bg_start</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
         <item name="android:windowBackground">@color/rp_bg_start</item>
         <item name="android:textColorPrimary">@color/rp_text_primary</item>
         <item name="android:textColorSecondary">@color/rp_text_secondary</item>

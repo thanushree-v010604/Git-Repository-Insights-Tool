@@ -175,10 +175,10 @@ class InsightsFragment : Fragment() {
 
     private fun updateDonutChart(entries: List<PieEntry>) {
         val colors = listOf(
-            "#7ED957".toColorInt(),
-            "#5FB942".toColorInt(),
-            "#3A7A24".toColorInt(),
-            "#254F17".toColorInt()
+            "#00F0FF".toColorInt(),
+            "#00E5FF".toColorInt(),
+            "#00B8D4".toColorInt(),
+            "#1F2A33".toColorInt()
         )
         val dataSet = PieDataSet(entries, "").apply {
             setColors(colors)
@@ -193,8 +193,8 @@ class InsightsFragment : Fragment() {
             this.data              = data
             holeRadius             = 68f
             transparentCircleRadius = 72f
-            setHoleColor("#0F3A28".toColorInt())
-            setTransparentCircleColor("#0F3A28".toColorInt())
+            setHoleColor("#101820".toColorInt())
+            setTransparentCircleColor("#0A0F14".toColorInt())
             setDrawCenterText(false)
             setDrawEntryLabels(false)
             setUsePercentValues(true)
