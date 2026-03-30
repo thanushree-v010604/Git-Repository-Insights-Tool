@@ -12,43 +12,33 @@
           "package_name": "com.example.git_repo_4"
         }
       },
-      "oauth_client": [],
-      "api_key": [{
-        "project_info": {
-          "project_number": "221238108370",
-          "project_id": "repopulse-3b1bd",
-          "storage_bucket": "repopulse-3b1bd.firebasestorage.app"
-        },
-        "client": [
-          {
-            "client_info": {
-              "mobilesdk_app_id": "1:221238108370:android:96be921d267e2ea7a04d0b",
-              "android_client_info": {
-                "package_name": "com.example.git_repo_4"
-              }
-            },
-            "oauth_client": [],
-            "api_key": [
-              {
-                "current_key": "AIzaSyDo02ewudH0mbCX1VbcV2R2j0GBGr2HeaE"
-              }
-            ],
-            "services": {
-              "appinvite_service": {
-                "other_platform_oauth_client": []
-              }
-            }
+      "oauth_client": [
+        {
+          "client_id": "221238108370-k4csmkln617gj665q44jsobblk979nhi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.git_repo_4",
+            "certificate_hash": "f88dec14b3da16c01d9ccee278fc06b8d9adfbae"
           }
-        ],
-        "configuration_version": "1"
-      },
+        },
+        {
+          "client_id": "221238108370-f66p5db17uvg49dpnmuuljaltqdphfpi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
         {
           "current_key": "AIzaSyDo02ewudH0mbCX1VbcV2R2j0GBGr2HeaE"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "221238108370-f66p5db17uvg49dpnmuuljaltqdphfpi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

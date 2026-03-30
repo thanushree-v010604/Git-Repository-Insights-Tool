@@ -6,52 +6,7 @@
     android:background="@drawable/bg_green_gradient"
     android:fitsSystemWindows="true">
 
-    <!-- Top Bar -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/topBarFiles"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/ivFilesBack"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:contentDescription="@string/content_desc_back"
-            android:src="@android:drawable/ic_menu_revert"
-            app:tint="@color/rp_neon_green"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/files_title"
-            android:textColor="@color/rp_text_primary"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivFilesBack"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="12dp" />
-
-        <ImageView
-            android:id="@+id/ivFilesSearch"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:contentDescription="@string/content_desc_search"
-            android:src="@android:drawable/ic_menu_search"
-            app:tint="@color/rp_neon_green"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Top Bar removed - handled by HomeActivity toolbar -->
 
     <!-- Scrollable content -->
     <androidx.core.widget.NestedScrollView
@@ -61,7 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topBarFiles">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"

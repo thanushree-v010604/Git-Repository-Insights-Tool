@@ -7,53 +7,7 @@
     android:background="@drawable/bg_green_gradient">
 
     <!-- Top App Bar -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/topAppBar"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:background="@android:color/transparent"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/ivMenu"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:contentDescription="@string/menu"
-            android:src="@android:drawable/ic_menu_sort_by_size"
-            android:tint="@color/rp_neon_green"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/home_title"
-            android:textColor="@color/rp_text_primary"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/ivProfile"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:contentDescription="@string/profile"
-            android:src="@android:drawable/ic_menu_myplaces"
-            android:tint="@color/rp_text_primary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Removed: Menu bar now handled by HomeActivity toolbar -->
 
     <!-- Scrollable Content -->
     <androidx.core.widget.NestedScrollView
@@ -63,7 +17,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topAppBar">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -154,7 +108,7 @@
                             android:layout_marginEnd="14dp"
                             android:contentDescription="@string/paste_link"
                             android:src="@android:drawable/ic_menu_edit"
-                            android:tint="@color/rp_neon_green"
+                            app:tint="@color/rp_neon_green"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />

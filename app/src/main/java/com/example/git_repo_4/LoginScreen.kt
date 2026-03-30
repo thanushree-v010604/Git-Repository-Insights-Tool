@@ -33,6 +33,7 @@ private val LoginDivider = Color(0xFF1F2A33)
 @Composable
 fun LoginScreen(
     onLoginClick: (String, String) -> Unit = { _, _ -> },
+    onGoogleSignInClick: () -> Unit = {},
     onSignUpClick: () -> Unit = {},
     onForgotPasswordClick: () -> Unit = {}
 ) {
@@ -153,7 +154,13 @@ fun LoginScreen(
 
             // Login Button
             Button(
-                onClick = { onLoginClick(email, password) },
+                onClick = {
+                    if (email.isBlank() && password.isBlank()) {
+                        onGoogleSignInClick()
+                    } else {
+                        onLoginClick(email, password)
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),

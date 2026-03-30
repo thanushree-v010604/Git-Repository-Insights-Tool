@@ -1,3 +1,4 @@
+import groovy.json.JsonSlurper
 import java.util.Properties
 
 plugins {
@@ -5,7 +6,6 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
-// Keep intermediates outside OneDrive to prevent processDebugJavaRes delete/snapshot races.
 val localAppData: String? = System.getenv("LOCALAPPDATA")
 if (!localAppData.isNullOrBlank()) {
     layout.buildDirectory.set(file("$localAppData/Gradle/RepoPulse/build/app"))
@@ -47,17 +47,55 @@ android {
         val rawGitHubToken: String = readBuildProperty("github.token")
         buildConfigField("String", "GITHUB_TOKEN", "\"${escapeForBuildConfig(rawGitHubToken)}\"")
 
-        val firebaseApiKey = readBuildProperty("firebase.apiKey")
-        val firebaseAppId = readBuildProperty("firebase.appId")
-        val firebaseProjectId = readBuildProperty("firebase.projectId")
-        val firebaseStorageBucket = readBuildProperty("firebase.storageBucket")
-        val firebaseSenderId = readBuildProperty("firebase.gcmSenderId")
+        val googleServicesFile = project.file("google-services.json")
+        if (!googleServicesFile.exists()) {
+            throw GradleException("Missing app/google-services.json. Firebase auth cannot be configured.")
+        }
 
-        buildConfigField("String", "FIREBASE_API_KEY", "\"${escapeForBuildConfig(firebaseApiKey)}\"")
-        buildConfigField("String", "FIREBASE_APP_ID", "\"${escapeForBuildConfig(firebaseAppId)}\"")
-        buildConfigField("String", "FIREBASE_PROJECT_ID", "\"${escapeForBuildConfig(firebaseProjectId)}\"")
-        buildConfigField("String", "FIREBASE_STORAGE_BUCKET", "\"${escapeForBuildConfig(firebaseStorageBucket)}\"")
-        buildConfigField("String", "FIREBASE_GCM_SENDER_ID", "\"${escapeForBuildConfig(firebaseSenderId)}\"")
+        @Suppress("UNCHECKED_CAST")
+        val googleServices = JsonSlurper().parseText(googleServicesFile.readText()) as Map<String, Any?>
+
+        val projectInfo = googleServices["project_info"] as? Map<String, Any?>
+            ?: throw GradleException("Invalid google-services.json: missing project_info")
+
+        val clients = (googleServices["client"] as? List<*>)
+            ?.filterIsInstance<Map<String, Any?>>()
+            .orEmpty()
+
+        val matchedClient = clients.firstOrNull { client ->
+            val clientInfo = client["client_info"] as? Map<String, Any?>
+            val androidClientInfo = clientInfo?.get("android_client_info") as? Map<String, Any?>
+            (androidClientInfo?.get("package_name") as? String) == applicationId
+        } ?: throw GradleException("No client with package_name=$applicationId in google-services.json")
+
+        val apiKey = ((matchedClient["api_key"] as? List<*>)
+            ?.firstOrNull() as? Map<String, Any?>)
+            ?.get("current_key") as? String ?: ""
+
+        val appId = ((matchedClient["client_info"] as? Map<String, Any?>)
+            ?.get("mobilesdk_app_id") as? String).orEmpty()
+
+        val projectId = (projectInfo["project_id"] as? String).orEmpty()
+        val storageBucket = (projectInfo["storage_bucket"] as? String).orEmpty()
+        val senderId = (projectInfo["project_number"] as? String).orEmpty()
+
+        val webClientId = ((matchedClient["oauth_client"] as? List<*>)
+            ?.filterIsInstance<Map<String, Any?>>()
+            ?.firstOrNull { (it["client_type"] as? Number)?.toInt() == 3 }
+            ?.get("client_id") as? String).orEmpty()
+
+        if (apiKey.isBlank() || appId.isBlank() || projectId.isBlank()) {
+            throw GradleException("google-services.json is missing required Firebase fields")
+        }
+
+        buildConfigField("String", "FIREBASE_API_KEY", "\"${escapeForBuildConfig(apiKey)}\"")
+        buildConfigField("String", "FIREBASE_APP_ID", "\"${escapeForBuildConfig(appId)}\"")
+        buildConfigField("String", "FIREBASE_PROJECT_ID", "\"${escapeForBuildConfig(projectId)}\"")
+        buildConfigField("String", "FIREBASE_STORAGE_BUCKET", "\"${escapeForBuildConfig(storageBucket)}\"")
+        buildConfigField("String", "FIREBASE_GCM_SENDER_ID", "\"${escapeForBuildConfig(senderId)}\"")
+
+        val webClientIdValue = if (webClientId.isBlank()) "" else webClientId
+        resValue("string", "default_web_client_id", webClientIdValue)
     }
 
     buildTypes {
@@ -77,6 +115,7 @@ android {
         compose = true
         viewBinding = true
         buildConfig = true
+        resValues = true
     }
 }
 
@@ -104,9 +143,10 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.glide)
 
-    // Firebase dependencies (manual runtime initialization; no Google Services plugin)
+    // Firebase Auth + Google Sign-In (configured through google-services.json)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -116,7 +156,3 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
-
-// Note: any cleanup of build intermediates on Windows/OneDrive is now handled by
-// the external PowerShell script build_fix.ps1 to avoid file-lock related
-// AccessDeniedException during Gradle tasks like dexBuilderDebug.

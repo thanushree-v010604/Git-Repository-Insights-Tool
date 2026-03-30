@@ -2,7 +2,6 @@ package com.example.git_repo_4
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -53,14 +52,9 @@ class FilesFragment : Fragment(R.layout.fragment_files) {
         )
 
         val recentRecycler: RecyclerView = view.findViewById(R.id.recyclerRecentFiles)
-        val filesSearchIcon: ImageView = view.findViewById(R.id.ivFilesSearch)
         recentRecycler.layoutManager = LinearLayoutManager(requireContext())
         fileUpdateAdapter = FileUpdateAdapter(emptyList())
         recentRecycler.adapter = fileUpdateAdapter
-
-        filesSearchIcon.setOnClickListener {
-            showSearchDialog()
-        }
 
         // STEP 6 — TOTAL CHANGES UI
         repoViewModel.totalChanges.observe(viewLifecycleOwner) { total ->

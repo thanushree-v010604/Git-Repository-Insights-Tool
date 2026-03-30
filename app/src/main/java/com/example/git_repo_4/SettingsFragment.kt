@@ -14,9 +14,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.example.git_repo_4.utils.PreferencesManager
+import com.example.git_repo_4.utils.SessionManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.firebase.auth.FirebaseAuth
 import java.io.File
 import java.io.FileOutputStream
 import java.util.Locale
@@ -202,10 +206,21 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private fun setupSignOut(view: View) {
         view.findViewById<View>(R.id.btnSignOut)?.setOnClickListener {
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+
+            GoogleSignIn.getClient(requireContext(), gso).signOut()
+
+            FirebaseAuth.getInstance().signOut()
+            SessionManager(requireContext()).logout()
             preferencesManager.clearAllData()
-            val intent = Intent(requireContext(), LoginActivity::class.java)
+
+            val intent = Intent(requireContext(), MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
+
             Snackbar.make(view, "Logged out", Snackbar.LENGTH_SHORT).show()
             requireActivity().finish()
         }

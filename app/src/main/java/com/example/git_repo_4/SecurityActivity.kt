@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.example.git_repo_4.utils.PreferencesManager
 
-class SecurityActivity : AppCompatActivity() {
+class SecurityActivity : BaseActivity() {
 
     private lateinit var preferencesManager: PreferencesManager
     private lateinit var etCurrentPassword: EditText

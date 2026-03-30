@@ -8,51 +8,7 @@
     android:fitsSystemWindows="true">
 
     <!-- ── TOP APP BAR ─────────────────────────────────────── -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/topAppBar"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/ivBackArrow"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:contentDescription="@string/insights_back"
-            android:src="@android:drawable/ic_menu_revert"
-            app:tint="@color/rp_text_primary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/insights_title"
-            android:textColor="@color/rp_text_primary"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/ivShareIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:contentDescription="@string/insights_share"
-            android:src="@android:drawable/ic_menu_share"
-            app:tint="@color/rp_text_primary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Removed: Menu bar now handled by HomeActivity toolbar -->
 
     <!-- ── SCROLLABLE CONTENT ──────────────────────────────── -->
     <androidx.core.widget.NestedScrollView
@@ -62,7 +18,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topAppBar">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

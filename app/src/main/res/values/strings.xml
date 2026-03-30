@@ -97,6 +97,8 @@
     <string name="files_dashboard_v2_changes">156 changes</string>
     <string name="files_readme">README.md</string>
     <string name="files_readme_changes">84 changes</string>
+    <string name="files_changelog_md">CHANGELOG.md</string>
+    <string name="files_changelog_md_changes">42 changes</string>
 
     <string name="files_recent_updates">Recent Updates</string>
     <string name="files_view_all">View All</string>
@@ -213,4 +215,13 @@
     <string name="insights_suggestion_resume_development">&#128161; Resume active development</string>
     <string name="insights_suggestion_well_maintained">&#128161; Repository is well maintained</string>
     <string name="insights_suggestions_placeholder">Suggestions will appear after analysis.</string>
+
+    <!-- Overflow Menu Items -->
+    <string name="menu_home">Home</string>
+    <string name="menu_insights">Insights</string>
+    <string name="menu_activity">Activity</string>
+    <string name="menu_files">Files</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_sign_out">Sign Out</string>
+
 </resources>
