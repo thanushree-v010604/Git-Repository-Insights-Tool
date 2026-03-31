@@ -8,10 +8,10 @@
     android:fitsSystemWindows="true">
 
     <!-- ── TOP APP BAR ─────────────────────────────────────── -->
-    <!-- Removed: Menu bar now handled by HomeActivity toolbar -->
 
     <!-- ── SCROLLABLE CONTENT ──────────────────────────────── -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/insightsContent"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -28,11 +28,14 @@
             android:paddingEnd="20dp"
             android:paddingBottom="100dp">
 
-            <!-- ── SECTION 1 : Impact Distribution Card ──── -->
+            <!-- New placement for total commits (moved out of removed card so code keeps working) -->
+
+            <!-- Impact Distribution Card -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardImpactDistribution"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
+                android:layout_marginBottom="16dp"
                 android:backgroundTint="@color/rp_surface"
                 app:cardCornerRadius="18dp"
                 app:cardElevation="4dp"
@@ -42,156 +45,136 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="20dp">
+                    android:layout_height="match_parent"
+                    android:padding="16dp">
 
-                    <!-- Card title -->
                     <TextView
                         android:id="@+id/tvImpactTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/insights_impact_distribution"
-                        android:textColor="@color/rp_text_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
+                        android:textColor="@color/rp_text_secondary"
+                        android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <!-- Donut chart -->
-                    <com.github.mikephil.charting.charts.PieChart
-                        android:id="@+id/donutChart"
-                        android:layout_width="160dp"
-                        android:layout_height="160dp"
-                        android:layout_marginTop="16dp"
-                        app:layout_constraintEnd_toStartOf="@id/llLegend"
-                        app:layout_constraintHorizontal_bias="0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvImpactTitle" />
-
-                    <!-- Center overlay text for donut -->
                     <LinearLayout
-                        android:id="@+id/donutCenterText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="@id/donutChart"
-                        app:layout_constraintEnd_toEndOf="@id/donutChart"
-                        app:layout_constraintStart_toStartOf="@id/donutChart"
-                        app:layout_constraintTop_toTopOf="@id/donutChart">
-
-                        <TextView
-                            android:id="@+id/tvTotalValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/insights_total_value"
-                            android:textColor="@color/rp_neon_green"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <!-- Legend (right side) -->
-                    <LinearLayout
-                        android:id="@+id/llLegend"
+                        android:id="@+id/impactBar"
                         android:layout_width="0dp"
-                        android:layout_height="160dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/donutChart"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvImpactTitle">
 
-                        <!-- Core -->
-                        <TextView
-                            android:id="@+id/corePercent"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
+                        <View
+                            android:id="@+id/coreSegment"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:drawablePadding="8dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/legend_core"
-                            android:textColor="@color/rp_text_primary"
-                            android:textSize="12sp"
-                            app:drawableStartCompat="@drawable/dot_core" />
+                            android:background="@color/rp_text_primary" />
 
-                        <!-- UI/UX -->
-                        <TextView
-                            android:id="@+id/uiPercent"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
+                        <View
+                            android:id="@+id/uiSegment"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:drawablePadding="8dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/legend_ui"
-                            android:textColor="@color/rp_text_primary"
-                            android:textSize="12sp"
-                            app:drawableStartCompat="@drawable/dot_core" />
+                            android:background="@color/rp_text_primary" />
 
-                        <!-- API -->
-                        <TextView
-                            android:id="@+id/apiPercent"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
+                        <View
+                            android:id="@+id/apiSegment"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:drawablePadding="8dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/legend_api"
-                            android:textColor="@color/rp_text_primary"
-                            android:textSize="12sp"
-                            app:drawableStartCompat="@drawable/dot_api" />
+                            android:background="@color/rp_text_primary" />
 
-                        <!-- Docs -->
-                        <TextView
-                            android:id="@+id/docsPercent"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
+                        <View
+                            android:id="@+id/docsSegment"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:drawablePadding="8dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/legend_docs"
-                            android:textColor="@color/rp_text_primary"
-                            android:textSize="12sp"
-                            app:drawableStartCompat="@drawable/dot_docs" />
+                            android:background="@color/rp_text_primary" />
 
                     </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/tvTotalLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/insights_total_label"
-                        android:textColor="@color/rp_text_muted"
-                        android:textSize="11sp"
-                        app:layout_constraintTop_toBottomOf="@id/donutCenterText"
-                        app:layout_constraintStart_toStartOf="@id/donutCenterText" />
-
-                    <!-- New total commits value under the center text -->
-                    <TextView
-                        android:id="@+id/tvTotalCommits"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/insights_total_commits_placeholder"
-                        android:textColor="@color/rp_text_primary"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:layout_constraintTop_toBottomOf="@id/tvTotalLabel"
-                        app:layout_constraintStart_toStartOf="@id/tvTotalLabel" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
+
+            <!-- Language Breakdown Section -->
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/donutChart"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardImpactDistribution" />
+
+            <!-- Percentage Texts -->
+            <LinearLayout
+                android:id="@+id/percentageContainer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:weightSum="4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/donutChart">
+
+                <TextView
+                    android:id="@+id/corePercent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/insights_percent_placeholder"
+                    android:textColor="@color/rp_text_primary"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/uiPercent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/insights_percent_placeholder"
+                    android:textColor="@color/rp_text_primary"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/apiPercent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/insights_percent_placeholder"
+                    android:textColor="@color/rp_text_primary"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/docsPercent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/insights_percent_placeholder"
+                    android:textColor="@color/rp_text_primary"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
 
             <!-- ── SECTION 2 : Two stat cards side-by-side ─ -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/statsRow"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="28dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardImpactDistribution">
+                app:layout_constraintTop_toBottomOf="@id/percentageContainer">
 
                 <!-- Weekly Growth -->
                 <androidx.cardview.widget.CardView
@@ -229,9 +212,9 @@
                             android:layout_height="20dp"
                             android:contentDescription="@string/insights_trend_up"
                             android:src="@android:drawable/ic_menu_upload"
-                            app:tint="@color/rp_neon_green"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/rp_neon_green" />
 
                         <!-- Rename value id to match InsightsFragment -->
                         <TextView
@@ -270,27 +253,15 @@
                         android:padding="16dp">
 
                         <TextView
-                            android:id="@+id/tvSpeedTitle"
-                            android:layout_width="0dp"
+                            android:id="@+id/tvReviewSpeedTitle"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/insights_review_speed"
                             android:textColor="@color/rp_text_secondary"
                             android:textSize="12sp"
-                            app:layout_constraintEnd_toStartOf="@id/ivLightning"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <ImageView
-                            android:id="@+id/ivLightning"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:contentDescription="@string/insights_lightning"
-                            android:src="@android:drawable/ic_menu_today"
-                            app:tint="@color/rp_neon_green"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <!-- Rename value id to match InsightsFragment -->
                         <TextView
                             android:id="@+id/tvReviewSpeed"
                             android:layout_width="wrap_content"
@@ -300,8 +271,8 @@
                             android:textSize="26sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tvSpeedTitle" />
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvReviewSpeedTitle" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -449,6 +420,21 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/tvEmptyState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/enter_git_url_to_analyze"
+        android:textColor="@color/rp_text_primary"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

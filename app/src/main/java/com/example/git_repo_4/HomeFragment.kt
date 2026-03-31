@@ -8,26 +8,21 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.git_repo_4.model.AnalyzedRepo
-import com.example.git_repo_4.model.Commit
 import com.example.git_repo_4.model.RepoResponse
-import com.example.git_repo_4.model.RecentRepo
 import com.example.git_repo_4.network.RetrofitClient
 import com.example.git_repo_4.repository.GitHubRepository
 import com.example.git_repo_4.utils.GitHubUrlParser
 import com.example.git_repo_4.utils.RecentRepoManager
-import com.example.git_repo_4.utils.RepoHistoryManager
 import com.example.git_repo_4.viewmodel.SharedRepoViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.example.git_repo_4.model.CommitResponse
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -51,13 +46,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         // Initial load of history
         loadRecentRepos()
 
+        repoUrlInput.doAfterTextChanged { text ->
+            if (text.isNullOrBlank()) {
+                resetAnalyzedState()
+            }
+        }
+
         analyzeButton.setOnClickListener {
             startRepositoryAnalysis(repoUrlInput.text.toString())
         }
     }
 
     private fun addRecentListSpacingIfNeeded(recyclerView: RecyclerView) {
-        val spacingPx = dpToPx(14f)
+        val spacingPx = (14f * resources.displayMetrics.density).toInt()
         val alreadyAdded = (0 until recyclerView.itemDecorationCount)
             .map { recyclerView.getItemDecorationAt(it) }
             .any { it is ItemSpacingDecoration }
@@ -65,10 +66,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         if (!alreadyAdded) {
             recyclerView.addItemDecoration(ItemSpacingDecoration(spacingPx))
         }
-    }
-
-    private fun dpToPx(dp: Float): Int {
-        return (dp * resources.displayMetrics.density).toInt()
     }
 
     private fun loadRecentRepos() {
@@ -79,6 +76,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun startRepositoryAnalysis(url: String) {
         val parsed = GitHubUrlParser.parse(url)
         if (parsed == null) {
+            resetAnalyzedState()
             Toast.makeText(context, getString(R.string.invalid_repo_url_message), Toast.LENGTH_SHORT).show()
             return
         }
@@ -94,6 +92,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             Toast.makeText(context, getString(R.string.loaded_cached_repo_message), Toast.LENGTH_SHORT).show()
             return
         }
+
+        // Start a new analysis cycle with a clean UI state when fresh fetch is required.
+        resetAnalyzedState()
 
         if (!isNetworkAvailable()) {
             Toast.makeText(context, getString(R.string.error_no_internet_connection), Toast.LENGTH_SHORT).show()
@@ -134,10 +135,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             loadRecentRepos()
         }
 
-        repoViewModel.repoName.value = "$owner/$repo"
+        repoViewModel.markRepoLoaded("$owner/$repo")
         repoViewModel.stars.value = repoData.stargazersCount
         repoViewModel.forks.value = repoData.forksCount
         repoViewModel.lastUpdated.value = repoData.updatedAt
+    }
+
+    private fun resetAnalyzedState() {
+        repoViewModel.clearRepoState()
     }
 
     private fun showCachedFallbackIfAvailable(owner: String, repo: String, repoKey: String): Boolean {
@@ -284,7 +289,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                                             repoViewModel.reviewSpeed.value = reviewSpeed
 
                                             // Run AI-style repository analysis once we have metrics
-                                            runAiAnalysis(owner, repo)
+                                            runAiAnalysis()
                                         }
                                     }
 
@@ -359,6 +364,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
                 override fun onFailure(call: Call<RepoResponse>, t: Throwable) {
                     if (!showCachedFallbackIfAvailable(owner, repo, repoKey)) {
+                        resetAnalyzedState()
                         Toast.makeText(
                             context,
                             getString(R.string.error_repo_request_exception, t.localizedMessage ?: ""),
@@ -375,14 +381,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         loadRecentRepos()
     }
 
-    private fun runAiAnalysis(owner: String, repo: String) {
+    private fun runAiAnalysis() {
         val commitCount = repoViewModel.commitCount.value ?: 0
         val contributorCount = repoViewModel.contributors.value?.size ?: 0
         val stars = repoViewModel.stars.value ?: 0
         val lastUpdated = repoViewModel.lastUpdated.value ?: ""
-
-        val riskList = mutableListOf<String>()
-        val suggestionList = mutableListOf<String>()
 
         // HEALTH CALCULATION (SMART)
         val healthResId = when {
@@ -394,6 +397,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         repoViewModel.repoHealth.value = getString(healthResId)
 
         // RISK ANALYSIS (DYNAMIC)
+        val riskList = mutableListOf<String>()
+
         if (contributorCount < 3) {
             riskList.add(getString(R.string.insights_risk_single_or_low_contributors))
         }
@@ -410,7 +415,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             riskList.add(getString(R.string.insights_risk_outdated))
         }
 
+        repoViewModel.risks.value = riskList
+
         // SUGGESTIONS (BASED ON RISKS)
+        val suggestionList = mutableListOf<String>()
+
         if (contributorCount < 5) {
             suggestionList.add(getString(R.string.insights_suggestion_add_contributors))
         }
@@ -431,7 +440,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             suggestionList.add(getString(R.string.insights_suggestion_well_maintained))
         }
 
-        repoViewModel.risks.value = riskList
         repoViewModel.suggestions.value = suggestionList
 
         // Generate full AI report text for download

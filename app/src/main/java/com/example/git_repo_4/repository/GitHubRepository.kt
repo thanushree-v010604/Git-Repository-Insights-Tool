@@ -22,4 +22,11 @@ object GitHubRepository {
     fun getCachedRepo(repoKey: String): RepoResponse? {
         return if (lastAnalyzedRepoKey == repoKey) currentRepo else null
     }
+
+    fun clear() {
+        currentRepo = null
+        contributors = emptyList()
+        commits = emptyList()
+        lastAnalyzedRepoKey = null
+    }
 }

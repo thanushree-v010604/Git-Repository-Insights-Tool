@@ -6,6 +6,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,6 +31,8 @@ class FilesFragment : Fragment(R.layout.fragment_files) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val contentView: NestedScrollView = view.findViewById(R.id.filesContent)
+        val emptyStateText: TextView = view.findViewById(R.id.tvEmptyState)
         val totalChangesText: TextView = view.findViewById(R.id.tvTotalChangesValue)
 
         // Top files rows
@@ -56,6 +60,18 @@ class FilesFragment : Fragment(R.layout.fragment_files) {
         fileUpdateAdapter = FileUpdateAdapter(emptyList())
         recentRecycler.adapter = fileUpdateAdapter
 
+        repoViewModel.isRepoLoaded.observe(viewLifecycleOwner) { loaded ->
+            val hasRepo = loaded == true
+            contentView.isVisible = hasRepo
+            emptyStateText.isVisible = !hasRepo
+
+            if (!hasRepo) {
+                totalChangesText.text = "0"
+                clearTopFileRows(topFileNameViews, topFileChangesViews, topFileProgressViews)
+                fileUpdateAdapter.submitItems(emptyList())
+            }
+        }
+
         // STEP 6 — TOTAL CHANGES UI
         repoViewModel.totalChanges.observe(viewLifecycleOwner) { total ->
             totalChangesText.text = (total ?: 0).toString()
@@ -63,18 +79,24 @@ class FilesFragment : Fragment(R.layout.fragment_files) {
 
         // STEP 7 — MOST MODIFIED FILES (mapped into existing 4 rows with progress)
         repoViewModel.topFiles.observe(viewLifecycleOwner) { files ->
-            if (files.isNullOrEmpty()) return@observe
-            val max = files.maxOfOrNull { it.value } ?: 1
-            val limited = files.take(4)
+            val safeFiles = files.orEmpty()
+            if (safeFiles.isEmpty()) {
+                clearTopFileRows(topFileNameViews, topFileChangesViews, topFileProgressViews)
+                return@observe
+            }
 
+            val max = safeFiles.maxOfOrNull { it.value } ?: 1
             topFileNameViews.forEachIndexed { index, tvName ->
-                if (index < limited.size) {
-                    val entry = limited[index]
+                if (index < safeFiles.size) {
+                    val entry = safeFiles[index]
                     tvName.text = entry.key
-                    topFileChangesViews[index].text =
-                        getString(R.string.files_top_file_changes, entry.value)
+                    topFileChangesViews[index].text = getString(R.string.files_top_file_changes, entry.value)
                     val percent = (entry.value * 100 / max).coerceIn(0, 100)
                     topFileProgressViews[index].progress = percent
+                } else {
+                    tvName.text = "-"
+                    topFileChangesViews[index].text = getString(R.string.files_top_file_changes, 0)
+                    topFileProgressViews[index].progress = 0
                 }
             }
         }
@@ -89,8 +111,8 @@ class FilesFragment : Fragment(R.layout.fragment_files) {
                 FileUpdate(
                     fileName = fu.name,
                     updatedText = "Updated ${fu.time}",
-                    additions = fu.change.substringBefore(" "),
-                    deletions = fu.change.substringAfter(" "),
+                    additions = fu.change.substringBefore("-"),
+                    deletions = "-${fu.change.substringAfter("-", "0")}",
                     type = FileUpdateType.CODE
                 )
             }
@@ -99,10 +121,23 @@ class FilesFragment : Fragment(R.layout.fragment_files) {
 
         // Trigger load when we know which repo is currently selected
         repoViewModel.repoName.observe(viewLifecycleOwner) { fullName ->
+            if (repoViewModel.isRepoLoaded.value != true || fullName.isNullOrBlank()) return@observe
             val parts = fullName.split("/")
             if (parts.size == 2) {
                 loadFileActivity(parts[0], parts[1])
             }
+        }
+    }
+
+    private fun clearTopFileRows(
+        topFileNameViews: List<TextView>,
+        topFileChangesViews: List<TextView>,
+        topFileProgressViews: List<ProgressBar>
+    ) {
+        topFileNameViews.forEachIndexed { index, tvName ->
+            tvName.text = "-"
+            topFileChangesViews[index].text = getString(R.string.files_top_file_changes, 0)
+            topFileProgressViews[index].progress = 0
         }
     }
 

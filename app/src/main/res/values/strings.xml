@@ -33,10 +33,10 @@
     <string name="impact_distribution">Impact Distribution</string>
     <string name="total_label">Total</string>
     <string name="total_value">1,482</string>
-    <string name="legend_core">Core — 45%</string>
-    <string name="legend_ui">UI/UX — 25%</string>
-    <string name="legend_api">API — 15%</string>
-    <string name="legend_docs">Docs — 15%</string>
+    <string name="legend_core">Core - 45%</string>
+    <string name="legend_ui">UI/UX - 25%</string>
+    <string name="legend_api">API - 15%</string>
+    <string name="legend_docs">Docs - 15%</string>
     <string name="weekly_growth">Weekly Growth</string>
     <string name="growth_value">+12.4%</string>
     <string name="trend_up">Trend Up</string>
@@ -160,6 +160,7 @@
     <string name="analyzed_recently">Analyzed recently</string>
     <!-- Insights metrics & formatting -->
     <string name="insights_total_commits_label">Commits</string>
+    <string name="insights_total_commits">Total Commits</string>
     <string name="insights_total_commits_placeholder">--</string>
     <string name="insights_weekly_growth_placeholder">+0%%</string>
     <string name="insights_review_speed_placeholder">-- h</string>
@@ -176,10 +177,12 @@
     <string name="insights_language_docs_label">Docs</string>
     <string name="insights_language_other_label">Other</string>
     <string name="insights_role_top_contributor">Top contributor</string>
-    <string name="insights_core_percent_labeled">Core \\u2014 %1$d%%</string>
-    <string name="insights_ui_percent_labeled">UI/UX \\u2014 %1$d%%</string>
-    <string name="insights_api_percent_labeled">API \\u2014 %1$d%%</string>
-    <string name="insights_docs_percent_labeled">Docs \u2014 %1$d%%</string>
+    <string name="insights_core_percent_labeled">Core - %1$d%%</string>
+    <string name="insights_ui_percent_labeled">UI/UX - %1$d%%</string>
+    <string name="insights_api_percent_labeled">API - %1$d%%</string>
+    <string name="insights_docs_percent_labeled">Docs - %1$d%%</string>
+
+    <string name="insights_chart_center_text">Total\n100%</string>
 
     <!-- AI-based repository analysis strings -->
     <string name="insights_health_title">Repository Health</string>
@@ -223,5 +226,6 @@
     <string name="menu_files">Files</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_sign_out">Sign Out</string>
+    <string name="enter_git_url_to_analyze">Enter the Git URL to analyze</string>
 
 </resources>

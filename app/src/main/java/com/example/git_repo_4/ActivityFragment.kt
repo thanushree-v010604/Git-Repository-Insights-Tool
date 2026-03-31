@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.graphics.toColorInt
+import androidx.core.view.isVisible
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.git_repo_4.repository.GitHubRepository
+import com.example.git_repo_4.viewmodel.SharedRepoViewModel
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -17,8 +20,6 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
-import androidx.core.graphics.toColorInt
-import com.example.git_repo_4.viewmodel.SharedRepoViewModel
 
 class ActivityFragment : Fragment(R.layout.fragment_activity) {
 
@@ -28,6 +29,8 @@ class ActivityFragment : Fragment(R.layout.fragment_activity) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val contentView: NestedScrollView = view.findViewById(R.id.activityContent)
+        val emptyStateText: TextView = view.findViewById(R.id.tvEmptyState)
         val chart: LineChart = view.findViewById(R.id.lineChartCommits)
         val weeklyRecycler: RecyclerView = view.findViewById(R.id.recyclerWeeklyTrends)
         val totalCommitsText: TextView = view.findViewById(R.id.tvTotalNumber)
@@ -35,56 +38,60 @@ class ActivityFragment : Fragment(R.layout.fragment_activity) {
         val avgText: TextView = view.findViewById(R.id.tvAvgValue)
         val dateRangeText: TextView = view.findViewById(R.id.tvDateRange)
 
-        // Observers for Activity metrics
+        repoViewModel.isRepoLoaded.observe(viewLifecycleOwner) { loaded ->
+            val hasRepo = loaded == true
+            contentView.isVisible = hasRepo
+            emptyStateText.isVisible = !hasRepo
+        }
+
         repoViewModel.commitCount.observe(viewLifecycleOwner) { total ->
-            totalCommitsText.text = (total ?: getString(R.string.activity_total_commits_value).toIntOrNull()).toString()
+            totalCommitsText.text = total?.toString() ?: "--"
         }
 
         repoViewModel.peakDay.observe(viewLifecycleOwner) { value ->
-            peakText.text = (value ?: getString(R.string.activity_peak_value).toIntOrNull()).toString()
+            peakText.text = value?.toString() ?: "--"
         }
 
         repoViewModel.avgPerDay.observe(viewLifecycleOwner) { value ->
-            val display = value ?: 0.0
-            avgText.text = String.format(java.util.Locale.getDefault(), "%.1f", display)
+            avgText.text = if (value != null) {
+                String.format(java.util.Locale.getDefault(), "%.1f", value)
+            } else {
+                "--"
+            }
         }
 
-        // Date range text under the chart
         repoViewModel.dateRange.observe(viewLifecycleOwner) { range ->
-            dateRangeText.text = range
+            dateRangeText.text = if (range.isNullOrBlank()) "--" else range
         }
 
-        // STEP 3 — mode-aware observers
         repoViewModel.dailyCommits30.observe(viewLifecycleOwner) { data30 ->
             if (currentMode == "30") {
-                updateChart(chart, data30)
+                updateChart(chart, data30.orEmpty())
             }
         }
 
         repoViewModel.dailyCommits90.observe(viewLifecycleOwner) { data90 ->
             if (currentMode == "90") {
-                updateChart(chart, data90)
+                updateChart(chart, data90.orEmpty())
             }
         }
 
-        // STEP 5 — FORCE INITIAL LOAD (defaults to 30D)
         currentMode = "30"
-        repoViewModel.dailyCommits30.value?.let { data30 ->
-            updateChart(chart, data30)
-        }
+        updateChart(chart, repoViewModel.dailyCommits30.value.orEmpty())
 
-        // Weekly trends list from weeklyCommits (now based on real safeData30)
         repoViewModel.weeklyCommits.observe(viewLifecycleOwner) { weekly ->
             setupWeeklyTrends(weeklyRecycler, weekly)
         }
     }
 
     private fun updateChart(chart: LineChart, dailyData: List<Int>) {
-        val points: List<Entry> = if (dailyData.isNotEmpty()) {
-            dailyData.mapIndexed { index, value -> Entry(index.toFloat(), value.toFloat()) }
-        } else {
-            emptyList()
+        if (dailyData.isEmpty()) {
+            chart.clear()
+            chart.invalidate()
+            return
         }
+
+        val points = dailyData.mapIndexed { index, value -> Entry(index.toFloat(), value.toFloat()) }
 
         val dataSet = LineDataSet(points, "Commits").apply {
             color = "#00E5FF".toColorInt()
@@ -136,30 +143,14 @@ class ActivityFragment : Fragment(R.layout.fragment_activity) {
     }
 
     private fun setupWeeklyTrends(recyclerView: RecyclerView, weeklyCommits: List<Int>?) {
-        val rows = if (!weeklyCommits.isNullOrEmpty()) {
-            // Map weekly sums to simple rows; keep UX design but data is dynamic
-            weeklyCommits.mapIndexed { index, total ->
-                WeeklyTrend(
-                    week = "Week ${index + 1}",
-                    range = "Recent period",
-                    commits = "$total commits",
-                    delta = "",
-                    positive = total >= 0
-                )
-            }
-        } else {
-            // Fallback to existing static content if we have no data yet
-            val commits = GitHubRepository.commits
-            if (commits.isNotEmpty()) {
-                listOf(
-                    WeeklyTrend("Recent", "Last commits", "${commits.size} commits", "", true)
-                )
-            } else {
-                listOf(
-                    WeeklyTrend("Week 42", "Oct 19 - Oct 25", "294 commits", "+18%", true),
-                    WeeklyTrend("Week 41", "Oct 12 - Oct 18", "249 commits", "-4%", false)
-                )
-            }
+        val rows = weeklyCommits.orEmpty().mapIndexed { index, total ->
+            WeeklyTrend(
+                week = "Week ${index + 1}",
+                range = "Recent period",
+                commits = "$total commits",
+                delta = "",
+                positive = total >= 0
+            )
         }
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())

@@ -70,9 +70,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun bindProfile(view: View) {
-        val name = preferencesManager.getUserName()
+        val name = preferencesManager.getUserName().takeIf { it.isNotBlank() } ?: "User"
+        val email = preferencesManager.getUserEmail().takeIf { it.isNotBlank() } ?: "Not provided"
+
         view.findViewById<TextView>(R.id.tvUserName)?.text = name
-        view.findViewById<TextView>(R.id.tvUserEmail)?.text = preferencesManager.getUserEmail()
+        view.findViewById<TextView>(R.id.tvUserEmail)?.text = email
 
         val githubUsername = preferencesManager.getGithubUsername()
         view.findViewById<TextView>(R.id.tvGithubSubtitle)?.text = "Connected: @$githubUsername"

@@ -8,6 +8,7 @@ import com.example.git_repo_4.model.CommitResponse
 class SharedRepoViewModel : ViewModel() {
 
     val repoName = MutableLiveData<String>()
+    val isRepoLoaded = MutableLiveData(false)
     val contributors = MutableLiveData<List<Contributor>>()
 
     // Language statistics from GitHub /languages endpoint
@@ -60,4 +61,40 @@ class SharedRepoViewModel : ViewModel() {
     val totalChanges = MutableLiveData<Int>()
     val topFiles = MutableLiveData<List<Map.Entry<String, Int>>>()
     val recentFiles = MutableLiveData<List<FileUpdate>>()
+
+    fun markRepoLoaded(fullRepoName: String) {
+        repoName.value = fullRepoName
+        isRepoLoaded.value = true
+    }
+
+    fun clearRepoState() {
+        isRepoLoaded.value = false
+        repoName.value = ""
+        contributors.value = emptyList()
+        languageStats.value = emptyMap()
+        commitCount.value = null
+        weeklyGrowth.value = null
+        reviewSpeed.value = null
+        stars.value = null
+        forks.value = null
+        lastUpdated.value = null
+        repoHealth.value = null
+        risks.value = emptyList()
+        suggestions.value = emptyList()
+        repoScore.value = null
+        confidence.value = null
+        readmeQuality.value = null
+        fullReport.value = null
+        dailyCommits.value = emptyList()
+        weeklyCommits.value = emptyList()
+        peakDay.value = null
+        avgPerDay.value = null
+        dailyCommits30.value = emptyList()
+        dailyCommits90.value = emptyList()
+        peakDate.value = null
+        dateRange.value = null
+        totalChanges.value = 0
+        topFiles.value = emptyList()
+        recentFiles.value = emptyList()
+    }
 }
