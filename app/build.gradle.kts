@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 import groovy.json.JsonSlurper
 import java.util.Properties
 
@@ -6,33 +8,98 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
+// Fix build directory issue (OneDrive conflicts)
 val localAppData: String? = System.getenv("LOCALAPPDATA")
 if (!localAppData.isNullOrBlank()) {
     layout.buildDirectory.set(file("$localAppData/Gradle/RepoPulse/build/app"))
 }
 
-val localBuildProperties = Properties().apply {
+// Load local.properties
+val localBuildProperties: Properties = Properties().apply {
     val file = rootProject.file("local.properties")
     if (file.exists()) {
         file.inputStream().use(::load)
     }
 }
 
+// Helper function
 fun readBuildProperty(key: String): String {
-    val projectValue = (project.findProperty(key) as? String).orEmpty()
+    val projectValue: String = (project.findProperty(key) as? String).orEmpty()
     return projectValue.ifBlank { localBuildProperties.getProperty(key).orEmpty() }
 }
 
+// Escape function
+val escapeForBuildConfig: (String) -> String = { raw: String ->
+    raw.replace("\\", "\\\\").replace("\"", "\\\"")
+}
+
+//
+// 🔥 FIREBASE JSON PARSING (SAFE VERSION)
+//
+val googleServicesFile = project.file("google-services.json")
+if (!googleServicesFile.exists()) {
+    throw GradleException("Missing app/google-services.json")
+}
+
+val googleServices: Map<*, *> =
+    JsonSlurper().parseText(googleServicesFile.readText()) as Map<*, *>
+
+val projectInfo: Map<*, *> =
+    googleServices["project_info"] as? Map<*, *>
+        ?: throw GradleException("Invalid google-services.json: missing project_info")
+
+val clients: List<Map<*, *>> =
+    (googleServices["client"] as? List<*>)
+        ?.mapNotNull { it as? Map<*, *> }
+        .orEmpty()
+
+val applicationIdValue = "com.example.git_repo_4"
+
+val matchedClient: Map<*, *> =
+    clients.firstOrNull { client ->
+        val clientInfo = client["client_info"] as? Map<*, *>
+        val androidClientInfo = clientInfo?.get("android_client_info") as? Map<*, *>
+        val packageName = androidClientInfo?.get("package_name") as? String
+        packageName == applicationIdValue
+    } ?: throw GradleException("No matching client in google-services.json")
+
+val apiKey: String =
+    ((matchedClient["api_key"] as? List<*>)
+        ?.firstOrNull() as? Map<*, *>)
+        ?.get("current_key") as? String ?: ""
+
+val appId: String =
+    ((matchedClient["client_info"] as? Map<*, *>)
+        ?.get("mobilesdk_app_id") as? String).orEmpty()
+
+val projectId: String = projectInfo["project_id"] as? String ?: ""
+val storageBucket: String = projectInfo["storage_bucket"] as? String ?: ""
+val senderId: String = projectInfo["project_number"] as? String ?: ""
+
+val webClientId: String =
+    ((matchedClient["oauth_client"] as? List<*>)
+        ?.mapNotNull { it as? Map<*, *> }
+        ?.firstOrNull {
+            val type = it["client_type"] as? Number
+            type?.toInt() == 3
+        }
+        ?.get("client_id") as? String).orEmpty()
+
+if (apiKey.isBlank() || appId.isBlank() || projectId.isBlank()) {
+    throw GradleException("Firebase config missing required fields")
+}
+
+val webClientIdValue: String = webClientId.ifBlank { "" }
+
+//
+// 🔥 ANDROID CONFIG
+//
 android {
     namespace = "com.example.git_repo_4"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.git_repo_4"
+        applicationId = applicationIdValue
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -40,53 +107,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        val escapeForBuildConfig: (String) -> String = { raw ->
-            raw.replace("\\", "\\\\").replace("\"", "\\\"")
-        }
-
         val rawGitHubToken: String = readBuildProperty("github.token")
+
         buildConfigField("String", "GITHUB_TOKEN", "\"${escapeForBuildConfig(rawGitHubToken)}\"")
-
-        val googleServicesFile = project.file("google-services.json")
-        if (!googleServicesFile.exists()) {
-            throw GradleException("Missing app/google-services.json. Firebase auth cannot be configured.")
-        }
-
-        @Suppress("UNCHECKED_CAST")
-        val googleServices = JsonSlurper().parseText(googleServicesFile.readText()) as Map<String, Any?>
-
-        val projectInfo = googleServices["project_info"] as? Map<String, Any?>
-            ?: throw GradleException("Invalid google-services.json: missing project_info")
-
-        val clients = (googleServices["client"] as? List<*>)
-            ?.filterIsInstance<Map<String, Any?>>()
-            .orEmpty()
-
-        val matchedClient = clients.firstOrNull { client ->
-            val clientInfo = client["client_info"] as? Map<String, Any?>
-            val androidClientInfo = clientInfo?.get("android_client_info") as? Map<String, Any?>
-            (androidClientInfo?.get("package_name") as? String) == applicationId
-        } ?: throw GradleException("No client with package_name=$applicationId in google-services.json")
-
-        val apiKey = ((matchedClient["api_key"] as? List<*>)
-            ?.firstOrNull() as? Map<String, Any?>)
-            ?.get("current_key") as? String ?: ""
-
-        val appId = ((matchedClient["client_info"] as? Map<String, Any?>)
-            ?.get("mobilesdk_app_id") as? String).orEmpty()
-
-        val projectId = (projectInfo["project_id"] as? String).orEmpty()
-        val storageBucket = (projectInfo["storage_bucket"] as? String).orEmpty()
-        val senderId = (projectInfo["project_number"] as? String).orEmpty()
-
-        val webClientId = ((matchedClient["oauth_client"] as? List<*>)
-            ?.filterIsInstance<Map<String, Any?>>()
-            ?.firstOrNull { (it["client_type"] as? Number)?.toInt() == 3 }
-            ?.get("client_id") as? String).orEmpty()
-
-        if (apiKey.isBlank() || appId.isBlank() || projectId.isBlank()) {
-            throw GradleException("google-services.json is missing required Firebase fields")
-        }
 
         buildConfigField("String", "FIREBASE_API_KEY", "\"${escapeForBuildConfig(apiKey)}\"")
         buildConfigField("String", "FIREBASE_APP_ID", "\"${escapeForBuildConfig(appId)}\"")
@@ -94,7 +117,6 @@ android {
         buildConfigField("String", "FIREBASE_STORAGE_BUCKET", "\"${escapeForBuildConfig(storageBucket)}\"")
         buildConfigField("String", "FIREBASE_GCM_SENDER_ID", "\"${escapeForBuildConfig(senderId)}\"")
 
-        val webClientIdValue = if (webClientId.isBlank()) "" else webClientId
         resValue("string", "default_web_client_id", webClientIdValue)
     }
 
@@ -107,10 +129,12 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     buildFeatures {
         compose = true
         viewBinding = true
@@ -119,6 +143,9 @@ android {
     }
 }
 
+//
+// 🔥 DEPENDENCIES
+//
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -143,10 +170,12 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.glide)
 
-    // Firebase Auth + Google Sign-In (configured through google-services.json)
+    // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
+
+    // Google Sign-In
+    implementation("com.google.android.gms:play-services-auth:21.5.1")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
