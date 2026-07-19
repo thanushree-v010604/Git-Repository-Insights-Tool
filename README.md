@@ -117,6 +117,18 @@ Welcome screen displayed while the application initializes and loads repository 
 </p>
 
 ---
+## 🔐 Login Screen
+
+<p align="center">
+  <img src="./Login.jpeg" width="280">
+</p>
+
+<p align="center">
+Secure user authentication using Firebase Authentication.
+</p>
+
+
+----
 
 ## 🏠 Home Dashboard
 
