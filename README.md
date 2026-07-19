@@ -88,7 +88,6 @@ git clone https://github.com/thanushree-v010604/Git-Repository-Insights-Tool.git
 
 - 🤝 Pull Request Analytics
 - 🐞 Issue Analytics
-- 🌙 Dark Mode
 - 🤖 AI-powered Repository Summary
 - 📄 Export Reports
 - ⚖️ Repository Comparison
