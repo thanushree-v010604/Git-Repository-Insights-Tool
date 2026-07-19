@@ -104,12 +104,14 @@ The main objective of this project is to simplify GitHub repository analysis by 
 
 ---
 
+---
+
 # 📱 Application Screenshots
 
 ## 🚀 Splash Screen
 
 <p align="center">
-  <img src="./splash.jpeg" width="280">
+  <img src="assets/Screenshots/splash.jpeg" width="280">
 </p>
 
 <p align="center">
@@ -117,23 +119,23 @@ Welcome screen displayed while the application initializes and loads repository 
 </p>
 
 ---
+
 ## 🔐 Login Screen
 
 <p align="center">
-  <img src="./Login.jpeg" width="280">
+  <img src="assets/Screenshots/Login.jpeg" width="280">
 </p>
 
 <p align="center">
 Secure user authentication using Firebase Authentication.
 </p>
 
-
-----
+---
 
 ## 🏠 Home Dashboard
 
 <p align="center">
-  <img src="./Home.jpeg" width="280">
+  <img src="assets/Screenshots/Home.jpeg" width="280">
 </p>
 
 <p align="center">
@@ -145,7 +147,7 @@ Analyze any public GitHub repository and quickly access recently analyzed reposi
 ## 📊 Repository Insights
 
 <p align="center">
-  <img src="./Insights.jpeg" width="280">
+  <img src="assets/Screenshots/Insights.jpeg" width="280">
 </p>
 
 <p align="center">
@@ -157,11 +159,11 @@ View contributor analytics, repository growth, impact distribution, and project 
 ## 👥 Top Contributors & Repository Health
 
 <p align="center">
-  <img src="./Insight.jpeg" width="280">
+  <img src="assets/Screenshots/Insight.jpeg" width="280">
 </p>
 
 <p align="center">
-Identify top contributors, repository risks, and improvement suggestions.
+Identify top contributors, repository health, potential risks, and improvement suggestions.
 </p>
 
 ---
@@ -169,11 +171,11 @@ Identify top contributors, repository risks, and improvement suggestions.
 ## 📈 Repository Activity
 
 <p align="center">
-  <img src="./Activity.jpeg" width="280">
+  <img src="assets/Screenshots/Activity.jpeg" width="280">
 </p>
 
 <p align="center">
-Visualize commit history, activity trends, and repository statistics.
+Visualize commit history, daily activity, weekly trends, and repository statistics.
 </p>
 
 ---
@@ -181,11 +183,11 @@ Visualize commit history, activity trends, and repository statistics.
 ## 📂 File Activity
 
 <p align="center">
-  <img src="./Files.jpeg" width="280">
+  <img src="assets/Screenshots/Files.jpeg" width="280">
 </p>
 
 <p align="center">
-Track recently modified files, update history, and file changes.
+Track recently modified files, update history, and repository file changes.
 </p>
 
 ---
@@ -193,15 +195,17 @@ Track recently modified files, update history, and file changes.
 ## ⚙️ Settings
 
 <p align="center">
-  <img src="./settings.jpeg" width="280">
+  <img src="assets/Screenshots/settings.jpeg" width="280">
 </p>
 
 <p align="center">
-Manage account information, GitHub integration, notifications, and application settings.
+Manage profile information, GitHub integration, notifications, and application settings.
 </p>
 
+<br>
+
 <p align="center">
-  <img src="./sign out.jpeg" width="280">
+  <img src="assets/Screenshots/sign out.jpeg" width="280">
 </p>
 
 <p align="center">
