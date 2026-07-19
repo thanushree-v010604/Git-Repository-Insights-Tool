@@ -1,4 +1,3 @@
-<img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/119c16e9-9153-491a-a95f-ae925e3384a5" />#
 
 📊 Git Repository Insights Tool
 
