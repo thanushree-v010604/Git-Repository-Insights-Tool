@@ -1,13 +1,15 @@
 
-📊 Git Repository Insights Tool
+<h1 align="center">📊 Git Repository Insights Tool</h1>
 
-An Android application that provides detailed insights into any public GitHub repository. The app helps developers analyze repository statistics, contributors, commits, and project activity through an easy-to-use interface.
-
----
+<p align="center">
+An Android application for analyzing and visualizing GitHub repository insights.
+</p>
 
 ## 📖 Project Overview
 
-Developers often visit multiple GitHub pages to understand a repository's activity and contributions. This project brings all the important repository information together in one Android application, making repository analysis faster and more convenient.
+An Android application that provides detailed insights into any public GitHub repository. The app helps developers analyze repository statistics, contributors, commits, and project activity through an easy-to-use interface.
+
+---Developers often visit multiple GitHub pages to understand a repository's activity and contributions. This project brings all the important repository information together in one Android application, making repository analysis faster and more convenient.
 
 The application uses the GitHub REST API to fetch real-time repository data and presents it in a clean and organized dashboard.
 
